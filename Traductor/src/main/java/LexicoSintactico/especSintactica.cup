@@ -1,0 +1,958 @@
+/* ---------------Seccion de declaraciones preliminares--------------------*/
+package LexicoSintactico;
+
+import java_cup.runtime.*;
+import java.io.FileReader;
+import java_cup.runtime.Symbol;
+import simbolos.*;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java_cup.runtime.ComplexSymbolFactory.Location;
+import java.util.*;
+import java.util.HashMap;  
+import java.util.Collections;  
+ 
+parser code {:
+    
+    
+    public NoTerminal programa;
+    
+    public NoTerminal getProgram(){
+     return this.programa;
+    }
+    
+   
+ public AnalizadorSintactico(AnalizadorLexico lex, ComplexSymbolFactory sf) {
+    super(lex,sf);
+  }
+ 
+
+	 
+ public void syntax_error(String msj,Location line, Location column){
+ 
+   
+   report_error("Syntax error for  "+ msj + " Line: "+line.getLine()+ "  to Column: "+column.getColumn()+"\n");
+    }
+
+
+ public void syntax_error(String msj,Location line){
+ 
+     report_error("Syntax error"+ msj + " Line: "+line.getLine() +"\n");
+    }
+
+
+
+    
+  public void report_error(String msj){
+	    System.err.print(msj);
+	  
+	    }
+:};
+   
+
+
+   
+/*-------------------------------------------Terminales (token escaneados)---------------------------------------------------------*/
+
+/*Operadores aritmeticos*/
+terminal String op_suma;
+terminal String op_resta;
+terminal String op_mult;
+terminal String op_mod;
+terminal String op_div;
+
+/*Simbolos */
+terminal String abre_parent;
+terminal String cierra_parent;
+terminal String coma;
+terminal String punto_y_coma;
+terminal String punto;
+terminal String asignacion;
+terminal String dospuntos;
+
+
+/*Palabras reservadas */
+terminal String integer;
+terminal String real; 
+terminal String word_const;
+terminal String program;
+terminal String begin;
+terminal String end;
+terminal String var;
+terminal String procedure;
+terminal String function;
+terminal String not;
+terminal String unit;
+
+/* Operadores relacionales */
+terminal String opr_iguales;
+terminal String opr_menor;
+terminal String opr_mayor;
+terminal String opr_menor_igual;
+terminal String opr_mayor_igual;
+
+/* Operadores logicos */
+terminal String opl_or; 
+terminal String opl_and;
+
+
+/* Sentencias de control de flujo */
+terminal String word_if;
+terminal String word_then; 
+terminal String word_else;
+terminal String word_while;
+terminal String word_repeat;
+terminal String word_until;
+terminal String word_for;
+terminal String word_do;
+terminal String word_to;
+terminal String word_downto;
+
+
+/*Identificador*/
+terminal String identifier;
+
+
+/*Constantes Numericas*/
+
+terminal String numeric_real_const;
+terminal String numeric_integer_const;
+
+
+/*Constante literal*/
+terminal String string_const;
+
+
+
+/*----------------------------------------- NO TERMINAL--------------------------------------------------------------------------*/ 
+
+non terminal NoTerminal PRG;
+non terminal NoTerminal BLQ;
+non terminal ArrayDeque<DCL> DCLLIST;
+non terminal NoTerminal SENTLIST;
+
+
+non terminal NoTerminal DCL;
+non terminal String DEFCTE;
+non terminal List<String> CTELIST;
+non terminal String SIMPVALUE;
+
+non terminal String DEFVAR;
+non terminal String DEFVARLIST;
+non terminal ArrayDeque<String> VARLIST;
+
+non terminal String DEFPROC;
+non terminal String DEFFUN;
+non terminal String FORMAL_PARAMLIST;
+non terminal String FORMAL_PARAM;
+non terminal String TBAS;
+
+
+non terminal NoTerminal SENT;
+non terminal NoTerminal ASIG;
+non terminal NoTerminal ID;
+non terminal NoTerminal EXP;
+non terminal NoTerminal OP;
+non terminal String OPARIT;
+non terminal NoTerminal FACTOR;
+non terminal NoTerminal SUBPPARAMLIST;
+non terminal NoTerminal EXPLIST;
+non terminal NoTerminal PROC_CALL;
+
+
+non terminal NoTerminal EXPCOND;
+non terminal String OPLOG;
+non terminal NoTerminal FACTORCOND;
+non terminal String OPCOMP;
+non terminal NoTerminal INC;
+
+/* ---------------------------Seccion de precedencia y asociacion de los terminales----------------------------------------*/
+   
+
+precedence left abre_parent, cierra_parent;
+precedence left begin, end;
+precedence left opr_iguales, opr_menor, opr_mayor,  opr_menor_igual, opr_mayor_igual;
+precedence left op_suma, op_resta;
+precedence left op_mult, op_div, op_mod;
+precedence left opl_or, opl_and;
+
+
+
+
+/* -------------------------------------------- Seccion de la gramatica--------------------- ------------------------ */
+
+
+/*
+* PRG ::= "program" identifier ";" BLQ "."
+          | PRG ::= â€¦ | "UNIT" identifier ";" DCLLIST "."
+*/
+
+PRG ::= program:prg identifier:id punto_y_coma:pyc BLQ:blq punto:pto
+                  {:
+                     RESULT = new Prg(prg, id, pyc, blq, pto);
+                     parser.programa = RESULT;
+                     
+                  :}
+                  |unit:unit identifier:id punto_y_coma:pyc DCLLIST:dcl punto:pto
+                  {:
+                    RESULT = new Prg(id, pyc, pto,unit,dcl);
+                     parser.programa = RESULT;
+                  :}
+                  |program:prg identifier:id BLQ:blq punto:pto
+                  {:
+                     parser.syntax_error("Symbol [;] spanning from",idxleft, idxright);
+                     RESULT = new Prg(prg, id, ";", blq, pto);
+                     parser.programa = RESULT;
+                  :}
+                  |unit:unit identifier:id DCLLIST:dcl punto:pto
+                  {:
+                    parser.syntax_error("Symbol [;] spanning from ",idxleft, idxright);
+                  
+                    RESULT = new Prg(id, ";", pto,unit,dcl);
+                    parser.programa = RESULT;
+                  :}
+                  ;
+
+
+
+/*
+* BLQ ::= DCLLIST "begin" SENTLIST "end"
+*/
+
+BLQ ::= DCLLIST:cl begin:b SENTLIST:sl end:e
+              {:
+               if(cl.)
+              RESULT = new Blq(cl,b,sl,e);
+              :}
+              |begin:b SENTLIST:sl end:e
+              {:
+              RESULT = new Blq(b,sl,e);
+              :}
+              |DCLLIST begin:b error:e end:end
+              {:
+                  parser.syntax_error(" spanning from",exleft);
+                  RESULT = new Blq(b,end);
+              :}
+              ;
+
+
+/*
+* DCLLIST ::= ʎ | DCLLIST DCL
+*/
+DCLLIST ::= DCLLIST:dclList DCL:dcl
+              {:
+                 dclList.addFirst(dcl);
+                 RESULT = new DclList(dcl,dclList);
+              :}
+              |DCL:d 
+              {:
+                 ArrayDeque<DCL> dclList = new ArrayDeque<>();
+                 dclList.addt(d);
+                 RESULT = dclList; 
+              :}
+              ;
+
+
+
+/*
+* SENTLIST ::= SENT | SENTLIST SENT
+*/
+
+SENTLIST ::= SENT:s
+              {:
+              RESULT = new SentList(s);
+              :}
+              |SENTLIST:sl SENT:s
+              {:
+               RESULT = new SentList(s,sl); 
+              :}
+              ;
+              
+              
+/*
+* DCL ::= DEFCTE | DEFVAR | DEFPROC | DEFFUN
+*/
+DCL ::= DEFCTE:dc
+              {:
+              char c = 'c';
+              RESULT = new Dcl(dc,c);
+              :}
+              |DEFVAR:dv
+              {:
+                char v = 'v';
+               RESULT = new Dcl(dv,v); 
+              :}
+              |DEFPROC:dp
+              {:
+                char p = 'p';
+               RESULT = new Dcl(dp,p); 
+              :}
+              |DEFFUN:df
+              {:
+               char f = 'f';
+               RESULT = new Dcl(df,f);
+              :}
+              
+              ;
+
+
+/*
+* DEFCTE ::= "const" CTELIST
+*/
+
+DEFCTE ::= word_const:wc  CTELIST:cl
+              {:
+              
+               String consts = "";
+               DefCte dc = new DefCte("#define",cl);
+               for(String c: cl){
+                 consts += "#define "  + c.toString();
+               }
+              
+               
+               System.out.println(consts);
+                RESULT = consts;
+              :}
+              ;
+
+
+
+
+/*
+*  CTELIST ::= identifier "=" SIMPVALUE ";"
+*             | CTELIST identifier "=" SIMPVALUE ";"
+*/
+
+CTELIST ::= identifier:id opr_iguales:igual SIMPVALUE:sv punto_y_coma:pyc
+            {:
+              
+              List<String>cl = new ArrayList<>();
+              cl.add(id +" " + sv);
+              RESULT = cl;
+            :}
+            |CTELIST:cl identifier:id opr_iguales:igual SIMPVALUE:sv punto_y_coma:pyc
+            {:
+              cl.add(id +" " + sv);
+              RESULT = cl;
+            :}
+            |identifier:id opr_iguales:igual SIMPVALUE:sv
+            {:
+                List<String>cteList = new ArrayList<>();
+                cteList.add(id +" " + sv);
+                parser.syntax_error("Symbol [;] spanning from",svxleft, svxright);
+                RESULT = cteList;
+            :}
+            |CTELIST:cl identifier:id opr_iguales:igual SIMPVALUE:sv
+            {:
+                parser.syntax_error("Symbol [;] spanning from ",svxleft, svxright);
+               cl.add(id +" " + sv);
+              RESULT = cl;
+            
+            :}
+            |identifier:id  SIMPVALUE:sv punto_y_coma:pyc
+            {: 
+            parser.syntax_error("Symbol [=] spanning from  ",idxleft, idxright);
+             List<String>cl = new ArrayList<>();
+              cl.add(id +" " + sv);
+              RESULT = cl;
+
+            :}
+            |CTELIST:cl identifier:id  SIMPVALUE:sv punto_y_coma:pyc
+            {:
+             parser.syntax_error("Symbol [=] spanning from ",idxleft, idxright);
+             cl.add(id +" "+sv);
+             RESULT = cl;
+            :}
+            ;
+
+
+
+/*
+* SIMPVALUE ::= numeric_integer_const | numeric_real_const
+*               | string_const
+*/
+
+
+SIMPVALUE ::= numeric_integer_const:i
+              {:
+                //RESULT = new SimpValue(i);
+                RESULT = i;
+              :}
+              |numeric_real_const:r
+               {:
+               // RESULT = new SimpValue(r);
+                RESULT = r;
+              :}
+              |string_const:sc
+               {:
+               // RESULT = new SimpValue(sc);
+                RESULT = sc;
+              :}
+              ;
+
+
+
+/*
+* DEFVAR ::= "var" DEFVARLIST ";"
+*/
+
+DEFVAR ::= var:v DEFVARLIST:dvl punto_y_coma:pyc
+           {:
+              System.out.println(dvl + pyc);
+              RESULT = dvl + pyc;
+            :}
+            |var:v DEFVARLIST:dvl 
+            {:
+             parser.syntax_error("Symbol [;] spanning from ",dvlxleft, dvlxright);
+             
+              RESULT = dvl + ";";
+            :}
+            ;
+            
+
+
+
+/*
+* DEFVARLIST ::= VARLIST ":" TBAS | DEFVARLIST ";" VARLIST ":" TBAS
+*
+*/
+
+DEFVARLIST ::= VARLIST:vl dospuntos:dp TBAS:tipo
+               {:
+                   String variables = "";
+                   for(String id: vl) {variables = tipo + " " + id + " " +  variables ;}
+                 RESULT = variables;
+                :}
+                |DEFVARLIST:dvl punto_y_coma:pyc VARLIST:vl dospuntos:dp TBAS:tipo
+                {:
+                
+                  ArrayDeque<String> aux = new ArrayDeque<>();
+                  
+                  for(String id: vl) {aux.addFirst(tipo + " " + id + " " );}
+                  
+                  dvl +="; "  ;
+                  for(String v: aux){ dvl =  dvl + v;}
+                  RESULT = dvl;
+                  
+                 :} 
+                |VARLIST:vl TBAS:tipo
+                {:
+                   parser.syntax_error("Symbol [:] spanning from ",vlxleft, vlxright);
+                   String variables = "";
+                   for(String id: vl) {variables = tipo + " " + id + " "  + variables;}
+                  
+                  RESULT = variables;
+                :}
+                ;
+
+
+
+
+/*
+* VARLIST ::= identifier | identifier "," VARLIST
+*/
+VARLIST::= identifier:id
+           {:
+           
+             ArrayDeque<String>vl = new ArrayDeque<>();
+             vl.add(id);
+             RESULT = vl;
+            :}
+            
+            | identifier:id coma:coma VARLIST:vl
+            {:
+              vl.add(id + coma);
+             RESULT = vl;
+            :}
+            |identifier:id VARLIST:vl
+            {:
+             parser.syntax_error("Symbol [,] spanning from ",idxleft, idxright);
+             vl.add(id + ", ");
+             RESULT = vl;
+            :}
+            ;
+
+
+
+
+/*
+* DEFPROC ::= "procedure" identifier FORMAL_PARAMLIST ";" BLQ ";"
+*/
+
+DEFPROC ::= procedure:p identifier:id FORMAL_PARAMLIST:fpl punto_y_coma:pyc1 BLQ:blq punto_y_coma:pyc2
+            {:
+             /*
+             String cabecera = "void" + " "+ id + " " + fpl;
+             String cuerpo = blq.getCuerpo();
+             String proc = blq.*/
+             System.out.println("void" + " "+ id + " " + fpl);
+             RESULT = "void" + " "+ id + " " + fpl;
+             
+            :}
+            |procedure:p identifier:id punto_y_coma:pyc1 BLQ:blq punto_y_coma:pyc2
+            {:
+             
+               System.out.println("void" + " "+ id + " " +  "( void )");
+              RESULT = "void" + " "+ id + " " + "( void )";
+              
+            :}
+             ;
+
+
+/*
+* "function" identifier FORMAL_PARAMLIST ":" TBAS ";" BLQ ";"
+*/
+
+DEFFUN ::=  function:f identifier:id FORMAL_PARAMLIST:fpl dospuntos:dp TBAS:tipo punto_y_coma:pyc1 BLQ:blq punto_y_coma:pyc2
+            {:
+               System.out.println(tipo + " "+ id + " " + fpl);
+               RESULT = tipo + " "+ id + " " + fpl;
+               
+            :}
+            |function:f identifier:id dospuntos:dp TBAS:tipo punto_y_coma:pyc1 BLQ:blq punto_y_coma:pyc2
+            {:
+             System.out.println(tipo + " "+ id + " " + "( void )");
+              RESULT =  tipo + " "+ id + " " + "( void )";
+             
+            :}
+             ;
+
+
+
+
+
+/*
+* FORMAL_PARAMLIST ::=ʎ | "(" FORMAL_PARAM ")"
+*/
+FORMAL_PARAMLIST ::= abre_parent:ap FORMAL_PARAM:fp cierra_parent:cp
+                     {:
+                       
+                       RESULT = ap  + fp + cp;
+                      
+                      :}
+                      |abre_parent:ap cierra_parent:cp
+                      {:
+                         RESULT = ap + "void" + cp;
+                        
+                      :}
+                      ;
+
+
+
+
+
+
+/*
+*  FORMAL_PARAM ::= VARLIST ":" TBAS | VARLIST ":" TBAS ";" FORMAL_PARAM
+*     
+*/
+
+FORMAL_PARAM ::= VARLIST:vl dospuntos:dp TBAS:tipo
+                {:
+                  String param = "";
+                //[v3,v2,v1]
+                  for(String id: vl) {
+                	    param = tipo + " " + id + " "  + param;
+                  }
+                 RESULT = param;
+                :}
+                
+                | VARLIST:vl dospuntos:dp TBAS:tipo punto_y_coma:pyc FORMAL_PARAM:fp
+                
+                {:
+                 ArrayDeque<String> aux = new ArrayDeque<>();
+                  
+                  for(String id: vl) {
+                      aux.add(tipo + " " + id + " " );
+                	  
+                  }
+                  
+                  fp = aux.pollFirst()+ ", " + fp;
+                  for(String v: aux){
+                       fp = v + fp;
+                   }
+                
+                  RESULT = fp;
+                :}
+                ;
+
+
+
+
+
+/*
+* TBAS ::= "INTEGER" | "REAL"
+*/
+
+TBAS ::= integer:integer
+         {:
+           RESULT = "int";
+          :}
+          |real:real
+          {:
+           RESULT = "float";
+          :}
+          ;
+
+
+
+/*
+* SENT ::= ASIG ";" | PROC_CALL ";"
+| "if" EXPCOND "then" BLQ "else" BLQ
+| "while" EXPCOND "do" BLQ
+| "repeat" BLQ "until" EXPCOND ";"
+| "for" identifier ":=" EXP INC EXP "do" BLQ
+*/
+
+SENT ::= ASIG:asig punto_y_coma:pyc
+          {:
+            RESULT = new Sent(asig,pyc);
+          :}
+          |PROC_CALL:pc punto_y_coma:pyc
+          {:
+            RESULT = new Sent(pyc,pc);
+          :}
+          |word_if:wi EXPCOND:expCond word_then:wt BLQ:blq1 word_else:we BLQ:blq2
+          {:
+            RESULT = new Sent(wi,expCond,wt,blq1,we,blq2);
+          :}
+          |word_while:ww EXPCOND:expCond word_do:wd BLQ:blq
+          {:
+           RESULT = new Sent(ww,expCond,wd,blq);
+          :}
+          |word_repeat:wp BLQ:blq word_until:wu  EXPCOND:expCond punto_y_coma:pyc
+          {:
+            RESULT = new Sent(wp,blq,wu,expCond,pyc);
+          :}
+          |word_for:wf identifier:id asignacion:a EXP:exp1 INC:i EXP:exp2 word_do:wd BLQ:blq
+          {:
+           RESULT = new Sent(blq,wd,wf,a,id,exp1,i,exp2);
+          :}
+          |ASIG:asig 
+          {:
+             parser.syntax_error("Symbol  [;] spanning from ",asigxleft, asigxright);
+             RESULT = new Sent(asig,";");
+          :}
+          ;
+
+
+
+
+/*
+* INC ::= "to" | "downto"
+*/
+
+
+INC ::=  word_to:wt
+       {:
+          RESULT = new Inc(wt);
+       :}
+       |word_downto:wdownto
+       {:
+        RESULT = new Inc(wdownto);
+       :}
+       ;
+
+
+
+
+/*
+* ASIG ::= ID ":=" EXP
+*/
+
+ASIG ::= ID:id asignacion:asig EXP:ex
+         {:
+            RESULT = new Asig(id,asig,ex);
+         :}
+         |ID:id  EXP:ex
+         {:
+            parser.syntax_error("Symbol [:=] spanning from ",idxleft, idxright); 
+            RESULT = new Asig(id,":=",ex);
+         :}
+         ;
+
+
+/*
+* ID := identifier
+*/
+
+ID ::= identifier:id
+      {:
+        RESULT = new Id(id);
+      :}
+      ;
+    
+    
+    
+    
+    
+    
+
+/*
+* EXP ::= EXP OP EXP | FACTOR
+*/
+
+EXP ::= EXP:exp1 OP:op EXP:exp2
+        {:
+            RESULT = new Exp(exp1,op,exp2);
+          :}
+         |FACTOR:f
+         {:
+           RESULT = new Exp(f);
+          :}
+          ;
+
+
+
+
+
+/*
+* OP ::= OPARIT
+*/
+
+OP ::= OPARIT:opa
+       {:
+          RESULT = new Op(opa);
+        :}
+        ;
+
+
+
+/*
+* OPARIT ::= "+" | "-" | "*" | "div" | "mod"
+*/
+
+
+OPARIT ::= op_suma:suma
+           {:
+               RESULT = "+";
+            :}
+            |op_resta:resta
+            {:
+               RESULT = "-";
+            :}
+            |op_mult:mult
+            {:
+               RESULT = "*";
+            :}
+            |op_div:div
+            {:
+               RESULT = "/";
+            :}
+            |op_mod:mod
+            {:
+              RESULT = "%"";
+            :}
+            ;
+            
+            
+
+
+
+
+
+/*
+* FACTOR ::= SIMPVALUE | "(" EXP ")" | identifier SUBPPARAMLIST
+*/
+
+
+FACTOR ::= SIMPVALUE:c
+            {:
+               RESULT = new Factor(c);
+            :}
+            | abre_parent:ap EXP:exp cierra_parent:cp
+            {:
+                RESULT = new Factor(ap,exp,cp);
+            :}
+            | identifier:id SUBPPARAMLIST:spl
+            {:
+                RESULT = new Factor(id,spl);
+            :}
+            |identifier:id
+            {:
+             RESULT = new Factor(id);
+            :}
+            ;
+
+
+
+/*
+* SUBPPARAMLIST ::= lambda | "(" EXPLIST ")"
+*/
+
+SUBPPARAMLIST ::= abre_parent:ap EXPLIST:expl cierra_parent:cp
+                  {:
+                     RESULT = new SubpparamList(ap,expl,cp);
+                  :}
+                  ;
+
+
+
+
+/*
+* EXPLIST ::= EXP | EXP "," EXPLIST
+*/
+
+EXPLIST ::= EXP:exp
+            {:
+              RESULT = new ExpList(exp);
+            :}
+            |EXP:exp coma:coma EXPLIST:expl
+            {:
+             RESULT = new ExpList(exp,coma,expl);
+            :}
+            |EXP:exp  EXPLIST:expl
+            {:
+                parser.syntax_error("Symbol [,] spanning from ",expxleft, expxright); 
+                RESULT = new ExpList(exp,",",expl);
+            :}
+            ;
+
+
+
+/*
+* PROC_CALL ::= identifier SUBPPARAMLIST
+*/ 
+
+
+PROC_CALL ::= identifier:id SUBPPARAMLIST:spl
+              {:
+                RESULT = new Proc_call(id,spl);
+              :}
+              |identifier:id
+              {:
+               RESULT = new Proc_call(id);
+              :}
+              ;
+  
+
+
+/*
+* EXPCOND ::= EXPCOND OPLOG EXPCOND | FACTORCOND
+*/
+
+EXPCOND ::= EXPCOND:ec1 OPLOG:ol EXPCOND:ec2
+            {:
+              RESULT = new ExpCond(ec1,ol,ec2);
+            :}
+            |FACTORCOND:fc
+            {:
+              RESULT = new ExpCond(fc);
+            :}
+            ;
+            
+
+
+/*
+* OPLOG ::= "or" | "and"
+*/
+
+
+OPLOG ::= opl_or:opl_or
+         {:
+           RESULT = "||";
+         :}
+         |opl_and:opl_and
+         {:
+          RESULT = "&&";
+         :}
+         ;
+
+
+
+
+/*
+* FACTORCOND ::= EXP OPCOMP EXP | "(" EXP ")" | "not" FACTORCOND
+*/
+
+
+FACTORCOND ::= EXP:exp1 OPCOMP:opComp EXP:exp2
+               {:
+                  RESULT = new FactorCond(exp1, opComp, exp2);
+               :}
+               |not:not FACTORCOND:fc
+               {:
+                 RESULT = new FactorCond(not,fc);
+               :}
+               |abre_parent:ap EXP:exp cierra_parent:cp
+               {:
+                 RESULT = new FactorCond(exp,ap,cp);
+               :}
+               ;
+
+
+
+
+
+/*
+* OPCOMP ::= "<" | ">" | "<=" | ">=" | "="
+*/
+
+
+OPCOMP ::= opr_menor:opr_menor
+           {:
+             RESULT = "<";
+             
+             
+           :}
+           |opr_mayor:opr_mayor
+           {:
+             RESULT = ">";
+           :}
+           |opr_menor_igual:opr_menor_igual
+           {:
+             RESULT = "<=";   
+           :}
+           |opr_mayor_igual:opr_mayor_igual
+           {:
+             RESULT = ">=";   
+           :}
+           |opr_iguales:opr_iguales
+           {:
+             RESULT = "==";  
+              
+           :}
+           ;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

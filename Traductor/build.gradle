@@ -1,0 +1,47 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+    id 'application'
+}
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    implementation 'com.google.guava:guava:26.0-jre'
+    testImplementation 'junit:junit:4.12'
+    compile 'com.github.vbmacher:java-cup:11b-20160615'
+    compile 'de.jflex:jflex:1.7.0'
+   
+}
+
+
+group = 'traductor'
+version = '0.0.1-SNAPSHOT'
+description = 'Traductor'
+sourceCompatibility = '1.8'
+
+mainClassName = 'Traductor.App'
+
+
+
+
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Implementation-Title': 'Gradle Jar File Example',
+            'Implementation-Version': version,
+            'Main-Class': 'Traductor.App'
+    }
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
+
+
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
