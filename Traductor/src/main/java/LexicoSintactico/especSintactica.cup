@@ -128,7 +128,7 @@ terminal String string_const;
 non terminal NoTerminal PRG;
 non terminal NoTerminal BLQ;
 non terminal ArrayDeque<Dcl> DCLLIST;
-non terminal ArrayDeque<Sent> SENTLIST;
+non terminal ArrayDeque<String> SENTLIST;
 
 
 non terminal NoTerminal DCL;
@@ -147,7 +147,7 @@ non terminal String FORMAL_PARAM;
 non terminal String TBAS;
 
 
-non terminal NoTerminal SENT;
+non terminal String SENT;
 non terminal String ASIG;
 non terminal String ID;
 non terminal String EXP;
@@ -165,7 +165,8 @@ non terminal String FACTORCOND;
 non terminal String OPCOMP;
 non terminal NoTerminal INC;
 
-//non terminal String X;
+
+non terminal String X;
 
 
 
@@ -269,15 +270,15 @@ DCLLIST ::= DCLLIST:dclList DCL:dcl
 
 SENTLIST ::= SENT:s
               {:
-              ArrayDeque<Sent> sentList = new ArrayDeque<>();
+              ArrayDeque<String> sentList = new ArrayDeque<>();
              
-              sentList.add((Sent)s);
+              sentList.add(s);
               RESULT = sentList;
               :}
               |SENTLIST:sl SENT:s
               {:
               
-               sl.add((Sent)s);
+               sl.add(s);
                RESULT = sl; 
               :}
               ;
@@ -517,13 +518,21 @@ DEFPROC ::= procedure:p identifier:id FORMAL_PARAMLIST:fpl punto_y_coma:pyc1 BLQ
 * "function" identifier FORMAL_PARAMLIST ":" TBAS ";" BLQ ";"
 */
 
-DEFFUN ::=  function:f identifier:id FORMAL_PARAMLIST:fpl dospuntos:dp TBAS:tipo punto_y_coma:pyc1 BLQ:blq punto_y_coma:pyc2
+DEFFUN ::=  function:f identifier:id  FORMAL_PARAMLIST:fpl dospuntos:dp TBAS:tipo punto_y_coma:pyc1 X BLQ:blq punto_y_coma:pyc2
             {:
              
-             
+             String cuerpo = "";
+             String cabecera = "";
              DefFun fun = new DefFun(f,id,fpl,dp,tipo,pyc1,blq,pyc2);
-             fun.setCabecera(tipo + " " + id + " "+ fpl + "\n");
-             System.out.println(fun.toString());
+             cabecera = tipo + " " + id + " "+ fpl + "\n";
+               Blq b = (Blq)blq;
+             for(String sent: b.getSentlist()){
+               cuerpo += sent;
+              }
+              
+         
+             fun.setFunCompleta(cabecera + cuerpo);
+             System.out.println(cabecera + cuerpo);
              RESULT = fun;
                
             :}
@@ -541,16 +550,16 @@ DEFFUN ::=  function:f identifier:id FORMAL_PARAMLIST:fpl dospuntos:dp TBAS:tipo
 /*
 *  Acción ficticia que asocia el valor del nombre de la función 
 */
-/*
+
 X::= {:
-           Symbol s = (Symbol) stack.peek();
+           Symbol s = (Symbol) stack.get(6);
            this.nombrefuncion = s.value.toString();
            System.out.println(s.value.toString());
-           String RESULT = s.value.toString();
+           RESULT = s.value.toString();
      :}
       ;
       
-      */
+     
 /*
 * FORMAL_PARAMLIST ::=ʎ | "(" FORMAL_PARAM ")"
 */
@@ -638,34 +647,35 @@ TBAS ::= integer:integer
 
 SENT ::= ASIG:asig punto_y_coma:pyc
           {:
-            //System.out.println(this.nombreFuncion);
-            RESULT = new Sent(pyc,asig);
+            
+            //RESULT = new Sent(pyc,asig);
+            RESULT = asig + pyc + "\n";
           :}
           |PROC_CALL:proc_call punto_y_coma:pyc
           {:
-          
-            RESULT = new Sent(pyc, proc_call);
+             RESULT = proc_call + pyc + "\n";
+            //RESULT = new Sent(pyc, proc_call);
           :}
           |word_if:wi EXPCOND:expCond word_then:wt BLQ:blq1 word_else:we BLQ:blq2
           {:
-            RESULT = new Sent(wi,expCond,wt,blq1,we,blq2);
+           //RESULT = new Sent(wi,expCond,wt,blq1,we,blq2);
           :}
           |word_while:ww EXPCOND:expCond word_do:wd BLQ:blq
           {:
-           RESULT = new Sent(ww,expCond,wd,blq);
+          // RESULT = new Sent(ww,expCond,wd,blq);
           :}
           |word_repeat:wp BLQ:blq word_until:wu  EXPCOND:expCond punto_y_coma:pyc
           {:
-            RESULT = new Sent(wp,blq,wu,expCond,pyc);
+            //RESULT = new Sent(wp,blq,wu,expCond,pyc);
           :}
           |word_for:wf identifier:id asignacion:a EXP:exp1 INC:i EXP:exp2 word_do:wd BLQ:blq
           {:
-           RESULT = new Sent(blq,wd,wf,a,id,exp1,i,exp2);
+          // RESULT = new Sent(blq,wd,wf,a,id,exp1,i,exp2);
           :}
           |ASIG:asig 
           {:
              parser.syntax_error("Symbol  [;] spanning from ",asigxleft, asigxright);
-             RESULT = new Sent(asig,";");
+            // RESULT = new Sent(asig,";");
           :}
           ;
 
@@ -696,7 +706,19 @@ INC ::=  word_to:wt
 
 ASIG ::= ID:id asignacion:asig EXP:exp
          {:   
-             RESULT = id + " = " + exp;
+            
+            if(this.nombrefuncion != null){
+             if(this.nombrefuncion.equals(id)){
+               RESULT = "return " + " = " + exp;
+             }else{
+              RESULT = id + " = " + exp;
+            }
+             }
+            }else{
+                RESULT = id + " = " + exp;
+            }
+            
+            
          :}
          |ID:id  EXP:exp
          {:

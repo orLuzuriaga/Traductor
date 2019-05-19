@@ -16,17 +16,7 @@ public class DefFun extends NoTerminal{
 	private String puntoYcoma2;
 	
 
-	
-	//Contiene todas las variables concatenadas en un string
-	private String vars = "";
-	//contiene todas las sentencias concatenadas en un string
-	private String sents = "";
-	//Contiene todos las constantes concatenadas en un string
-	private String consts = "";
-    //Contiene todas las funciones concatenadas en un string
-	private String  func = "";
-	//contiene todas las procedimientos concatenadas en un string
-	private String proc = "";
+	private String funCompleta;
 	
 	private String cabecera = "";
 	
@@ -137,53 +127,30 @@ public class DefFun extends NoTerminal{
 
 
 
-	public String getVars() {
-		return vars;
-	}
-
-
-
-
-
-
-	public String getSents() {
-		return sents;
-	}
-
-
-
-
-
-
-	public String getConsts() {
-		return consts;
-	}
-
-
-
-
-
-
-	public String getFunc() {
-		return func;
-	}
-
-
-
-
-
-
-	public String getProc() {
-		return proc;
-	}
-
-
 
 
 
 
 	public void setCabecera(String cabecera) {
 		this.cabecera = cabecera;
+	}
+
+
+
+
+
+
+	public String getFunCompleta() {
+		return funCompleta;
+	}
+
+
+
+
+
+
+	public void setFunCompleta(String funCompleta) {
+		this.funCompleta = funCompleta;
 	}
 
 
@@ -214,6 +181,7 @@ public class DefFun extends NoTerminal{
 		
 	}
 	
+	/*
 	
   //Añadimos el resto de sentencias
 	private String addSent() {
@@ -245,9 +213,9 @@ public class DefFun extends NoTerminal{
         return cuerpo;
 		
 	}
+*/
 
-
-
+/*
 
     private String cabecera() {
     	
@@ -275,14 +243,14 @@ public class DefFun extends NoTerminal{
 		
 	}
 
-
-	
+*/
+	/*
 	public String toString() {
 		return cabecera() + cuerpo();
 	}
 
 	
-	
+	*/
 	
 	
 

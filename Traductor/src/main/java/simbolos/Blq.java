@@ -9,7 +9,7 @@ public class Blq extends NoTerminal{
 
 	private ArrayDeque<Dcl> dclList;
 	private String begin;
-	private ArrayDeque<Sent> sentlist;
+	private ArrayDeque<String> sentlist;
 	private String end;
 	
 	//Contiene todas las variables concatenadas en un string
@@ -26,7 +26,7 @@ public class Blq extends NoTerminal{
 	
 	private String nombreFuncion = "";
 	
-	public Blq(ArrayDeque<Dcl> dclList, String begin, ArrayDeque<Sent> sl, String end) {
+	public Blq(ArrayDeque<Dcl> dclList, String begin, ArrayDeque<String> sl, String end) {
 		super();
 		this.dclList =  dclList;
 		this.begin = begin;
@@ -39,7 +39,7 @@ public class Blq extends NoTerminal{
 	
 
 
-	public Blq(String begin,  ArrayDeque<Sent> sl, String end) {
+	public Blq(String begin,  ArrayDeque<String> sl, String end) {
 		super();
 		this.begin = begin;
 		this.sentlist =  sl;
@@ -76,7 +76,7 @@ public class Blq extends NoTerminal{
 
 
 
-	public ArrayDeque<Sent> getSentlist() {
+	public ArrayDeque<String> getSentlist() {
 		return sentlist;
 	}
 	
@@ -124,7 +124,7 @@ public class Blq extends NoTerminal{
 	
 	
 	
-	
+	/*
 	  //Añadimos el resto de sentencias
  private String conSents() {
 		 
@@ -148,11 +148,13 @@ public class Blq extends NoTerminal{
         return cuerpo;
 }
  
- 
-	
+ */
+/*	
   /*
    * Devuelve la concatenación de variables y todas las sentencias que pertenezcan al bloque
    */
+	
+	/*
   public String toString() {
 
 	return this.begin + "\n" + conVars() +  conSents() + this.end + "\n";
@@ -160,7 +162,7 @@ public class Blq extends NoTerminal{
   }
 
 
-
+*/
 
 
 }

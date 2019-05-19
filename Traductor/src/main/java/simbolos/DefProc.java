@@ -81,7 +81,7 @@ public class DefProc extends NoTerminal{
         return var;
 		
 	}
-
+/*
 	
 	  //Añadimos el resto de sentencias
 		private String addSent() {
@@ -153,7 +153,7 @@ public class DefProc extends NoTerminal{
 		}
 
 
-
+*/
 	
 
 }
