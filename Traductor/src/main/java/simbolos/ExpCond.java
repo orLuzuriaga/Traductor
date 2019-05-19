@@ -5,16 +5,16 @@ import java.io.PrintWriter;
 public class ExpCond extends NoTerminal{
 	
     private ExpCond ec1;
-    private OpLog ol;
+    private String ol;
     private ExpCond ec2;
     private FactorCond fc;
     
     
    
-	public ExpCond(NoTerminal ec1, NoTerminal ol, NoTerminal ec2) {
+	public ExpCond(NoTerminal ec1, String ol2, NoTerminal ec2) {
 		super();
 		this.ec1 = (ExpCond) ec1;
-		this.ol = (OpLog) ol;
+		this.ol = ol2;
 		this.ec2 = (ExpCond) ec2;
 	}
 

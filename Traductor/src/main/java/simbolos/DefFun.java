@@ -15,7 +15,20 @@ public class DefFun extends NoTerminal{
 	private Blq blq;
 	private String puntoYcoma2;
 	
+
 	
+	//Contiene todas las variables concatenadas en un string
+	private String vars = "";
+	//contiene todas las sentencias concatenadas en un string
+	private String sents = "";
+	//Contiene todos las constantes concatenadas en un string
+	private String consts = "";
+    //Contiene todas las funciones concatenadas en un string
+	private String  func = "";
+	//contiene todas las procedimientos concatenadas en un string
+	private String proc = "";
+	
+	private String cabecera = "";
 	
 	public DefFun(String function, String identifier, String fpl, String dosPuntos, String tbas,
 			String puntoYcoma1, NoTerminal blq, String puntoYcoma2) {
@@ -51,6 +64,222 @@ public class DefFun extends NoTerminal{
 
 
 
+	  
+    public String getFunction() {
+		return function;
+	}
+
+
+
+
+
+
+	public String getIdentifier() {
+		return identifier;
+	}
+
+
+
+
+
+
+	public String getFpl() {
+		return fpl;
+	}
+
+
+
+
+
+
+	public String getDosPuntos() {
+		return dosPuntos;
+	}
+
+
+
+
+
+
+	public String getTbas() {
+		return tbas;
+	}
+
+
+
+
+
+
+	public String getPuntoYcoma1() {
+		return puntoYcoma1;
+	}
+
+
+
+
+
+
+	public Blq getBlq() {
+		return blq;
+	}
+
+
+
+
+
+
+	public String getPuntoYcoma2() {
+		return puntoYcoma2;
+	}
+
+
+
+
+
+
+	public String getVars() {
+		return vars;
+	}
+
+
+
+
+
+
+	public String getSents() {
+		return sents;
+	}
+
+
+
+
+
+
+	public String getConsts() {
+		return consts;
+	}
+
+
+
+
+
+
+	public String getFunc() {
+		return func;
+	}
+
+
+
+
+
+
+	public String getProc() {
+		return proc;
+	}
+
+
+
+
+
+
+	public void setCabecera(String cabecera) {
+		this.cabecera = cabecera;
+	}
+
+
+
+
+
+
+	//Añadimos las variables
+	private String addVariables() {
+		 //Añadimos las variables
+		
+		String var = "";
+		if(blq.getDclList()!= null) {
+			try {
+				  for(Dcl dcl: blq.getDclList()){ 
+			        	
+			        	if(dcl.getTipoDcl() == 'v')var += dcl.getDefVar() + "\n";	
+			        
+			        }
+			        	
+			} catch (Exception e) {
+				System.err.println("No hay ningun variable declarada: " + e.getMessage());
+			}
+	      
+		}
+		
+        return var;
+		
+	}
+	
+	
+  //Añadimos el resto de sentencias
+	private String addSent() {
+		  String devolver = "return ";
+		  String cuerpo = "";
+		  if(blq.getSentlist()!=null) {
+			  try {
+					
+				  for(Sent sent: blq.getSentlist()){
+					   //ASIG ";"
+		               if(!sent.getAsig().getId().getIdentifier().equals(this.identifier)){
+		                   cuerpo += sent.getAsig().asigCom() + sent.getPyC() + "\n";
+		               //"if" EXPCOND "then" BLQ "else" BLQ
+		               }else if(sent.getProc_call() != null){
+		            	   cuerpo += sent.getProc_call() + sent.getPyC() + "\n";
+		               }else {
+		            	     devolver += sent.getAsig().asigInc()  + sent.getPyC() + "\n";
+		               }
+		          } 
+			} catch (Exception e) {
+				System.err.println("No hay ninguna sentencia declarada:" + e.getMessage());
+			 
+			  
+		  }
+		}
+	     
+           cuerpo += devolver;
+           
+        return cuerpo;
+		
+	}
+
+
+
+
+    private String cabecera() {
+    	
+    	if(this.fpl!=null) {
+    		return   this.tbas + " "+ this.identifier + " " + this.fpl + "\n";
+    	}else {
+    		return  this.tbas + " "+ this.identifier + " " + "( void )" + "\n";
+    	}
+		
+    }
+	
+    
+    
+	private String cuerpo() {
+		
+        // Añadimos la llave de inicio
+        String cuerpo = this.blq.getBegin() + "\n"; 
+        cuerpo += addVariables();
+		cuerpo += addSent();
+		//Añadimos la llave de fin
+		cuerpo += this.blq.getEnd() + "\n" ;
+		return cuerpo;
+		
+		
+		
+	}
+
+
+	
+	public String toString() {
+		return cabecera() + cuerpo();
+	}
 
 	
 	

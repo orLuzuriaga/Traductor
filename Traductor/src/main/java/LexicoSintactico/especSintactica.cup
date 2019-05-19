@@ -16,7 +16,7 @@ parser code {:
     
     
     public NoTerminal programa;
-    
+    public String nombrefuncion;
     public NoTerminal getProgram(){
      return this.programa;
     }
@@ -128,8 +128,8 @@ terminal String string_const;
 
 non terminal NoTerminal PRG;
 non terminal NoTerminal BLQ;
-non terminal ArrayDeque<DCL> DCLLIST;
-non terminal NoTerminal SENTLIST;
+non terminal ArrayDeque<Dcl> DCLLIST;
+non terminal ArrayDeque<Sent> SENTLIST;
 
 
 non terminal NoTerminal DCL;
@@ -141,30 +141,34 @@ non terminal String DEFVAR;
 non terminal String DEFVARLIST;
 non terminal ArrayDeque<String> VARLIST;
 
-non terminal String DEFPROC;
-non terminal String DEFFUN;
+non terminal NoTerminal DEFPROC;
+non terminal NoTerminal DEFFUN;
 non terminal String FORMAL_PARAMLIST;
 non terminal String FORMAL_PARAM;
 non terminal String TBAS;
 
 
 non terminal NoTerminal SENT;
-non terminal NoTerminal ASIG;
-non terminal NoTerminal ID;
-non terminal NoTerminal EXP;
-non terminal NoTerminal OP;
+non terminal String ASIG;
+non terminal String ID;
+non terminal String EXP;
+non terminal String OP;
 non terminal String OPARIT;
-non terminal NoTerminal FACTOR;
-non terminal NoTerminal SUBPPARAMLIST;
-non terminal NoTerminal EXPLIST;
-non terminal NoTerminal PROC_CALL;
+non terminal String FACTOR;
+non terminal String SUBPPARAMLIST;
+non terminal ArrayDeque<String> EXPLIST;
+non terminal String PROC_CALL;
 
 
-non terminal NoTerminal EXPCOND;
+non terminal String EXPCOND;
 non terminal String OPLOG;
-non terminal NoTerminal FACTORCOND;
+non terminal String FACTORCOND;
 non terminal String OPCOMP;
 non terminal NoTerminal INC;
+
+non terminal String X;
+
+
 
 /* ---------------------------Seccion de precedencia y asociacion de los terminales----------------------------------------*/
    
@@ -187,28 +191,33 @@ precedence left opl_or, opl_and;
           | PRG ::= â€¦ | "UNIT" identifier ";" DCLLIST "."
 */
 
-PRG ::= program:prg identifier:id punto_y_coma:pyc BLQ:blq punto:pto
+PRG ::= program:nombre identifier:id punto_y_coma:pyc BLQ:blq punto:pto
                   {:
-                     RESULT = new Prg(prg, id, pyc, blq, pto);
+                      Prg prg = new Prg(nombre, id, pyc, blq, pto);
+                     System.out.println(prg.toString());
+                     RESULT = prg;
                      parser.programa = RESULT;
                      
                   :}
-                  |unit:unit identifier:id punto_y_coma:pyc DCLLIST:dcl punto:pto
+                  |unit:nombre identifier:id punto_y_coma:pyc DCLLIST:dcl punto:pto
                   {:
-                    RESULT = new Prg(id, pyc, pto,unit,dcl);
+                    Prg unit = new Prg(id, pyc, pto,nombre,dcl);
+                    System.out.println(unit.toString());
+                    RESULT = unit; 
                      parser.programa = RESULT;
                   :}
-                  |program:prg identifier:id BLQ:blq punto:pto
+                  |program:nombre identifier:id BLQ:blq punto:pto
                   {:
                      parser.syntax_error("Symbol [;] spanning from",idxleft, idxright);
-                     RESULT = new Prg(prg, id, ";", blq, pto);
+                      Prg prg =new Prg(nombre, id, ";", blq, pto);
+                      RESULT = prg;
                      parser.programa = RESULT;
                   :}
-                  |unit:unit identifier:id DCLLIST:dcl punto:pto
+                  |unit:nombre identifier:id DCLLIST:dcl punto:pto
                   {:
                     parser.syntax_error("Symbol [;] spanning from ",idxleft, idxright);
-                  
-                    RESULT = new Prg(id, ";", pto,unit,dcl);
+                    Prg unit = new Prg(id, ";", pto,nombre,dcl);
+                    RESULT = unit; 
                     parser.programa = RESULT;
                   :}
                   ;
@@ -221,17 +230,18 @@ PRG ::= program:prg identifier:id punto_y_coma:pyc BLQ:blq punto:pto
 
 BLQ ::= DCLLIST:cl begin:b SENTLIST:sl end:e
               {:
-               if(cl.)
-              RESULT = new Blq(cl,b,sl,e);
+              
+              Blq blq = new Blq(cl,"{",sl,"}");
+              RESULT = new Blq(cl,"{",sl,"}");
               :}
               |begin:b SENTLIST:sl end:e
               {:
-              RESULT = new Blq(b,sl,e);
+              RESULT = new Blq("{",sl,"}");
               :}
               |DCLLIST begin:b error:e end:end
               {:
                   parser.syntax_error(" spanning from",exleft);
-                  RESULT = new Blq(b,end);
+                  RESULT = new Blq("{","}");
               :}
               ;
 
@@ -241,13 +251,13 @@ BLQ ::= DCLLIST:cl begin:b SENTLIST:sl end:e
 */
 DCLLIST ::= DCLLIST:dclList DCL:dcl
               {:
-                 dclList.addFirst(dcl);
-                 RESULT = new DclList(dcl,dclList);
+                 dclList.addFirst((Dcl)dcl);
+                 RESULT = dclList;
               :}
-              |DCL:d 
+              |DCL:dcl
               {:
-                 ArrayDeque<DCL> dclList = new ArrayDeque<>();
-                 dclList.addt(d);
+                 ArrayDeque<Dcl> dclList = new ArrayDeque<>();
+                 dclList.add((Dcl) dcl);
                  RESULT = dclList; 
               :}
               ;
@@ -255,20 +265,26 @@ DCLLIST ::= DCLLIST:dclList DCL:dcl
 
 
 /*
-* SENTLIST ::= SENT | SENTLIST SENT
+* SENTLIST ::= SENT |SENTLIST SENT
 */
 
 SENTLIST ::= SENT:s
               {:
-              RESULT = new SentList(s);
+              ArrayDeque<Sent> sentList = new ArrayDeque<>();
+              System.out.println(nf);
+              s.setNombreFuncion(nf);
+              sentList.add((Sent)s);
+              RESULT = sentList;
               :}
               |SENTLIST:sl SENT:s
               {:
-               RESULT = new SentList(s,sl); 
+              
+               sl.add((Sent)s);
+               RESULT = sl; 
               :}
               ;
               
-              
+     
 /*
 * DCL ::= DEFCTE | DEFVAR | DEFPROC | DEFFUN
 */
@@ -310,7 +326,7 @@ DEFCTE ::= word_const:wc  CTELIST:cl
                }
               
                
-               System.out.println(consts);
+              // System.out.println(consts);
                 RESULT = consts;
               :}
               ;
@@ -375,17 +391,17 @@ CTELIST ::= identifier:id opr_iguales:igual SIMPVALUE:sv punto_y_coma:pyc
 
 SIMPVALUE ::= numeric_integer_const:i
               {:
-                //RESULT = new SimpValue(i);
+                
                 RESULT = i;
               :}
               |numeric_real_const:r
                {:
-               // RESULT = new SimpValue(r);
+               
                 RESULT = r;
               :}
               |string_const:sc
                {:
-               // RESULT = new SimpValue(sc);
+               
                 RESULT = sc;
               :}
               ;
@@ -398,7 +414,7 @@ SIMPVALUE ::= numeric_integer_const:i
 
 DEFVAR ::= var:v DEFVARLIST:dvl punto_y_coma:pyc
            {:
-              System.out.println(dvl + pyc);
+              //System.out.println(dvl + pyc);
               RESULT = dvl + pyc;
             :}
             |var:v DEFVARLIST:dvl 
@@ -481,19 +497,19 @@ VARLIST::= identifier:id
 
 DEFPROC ::= procedure:p identifier:id FORMAL_PARAMLIST:fpl punto_y_coma:pyc1 BLQ:blq punto_y_coma:pyc2
             {:
-             /*
-             String cabecera = "void" + " "+ id + " " + fpl;
-             String cuerpo = blq.getCuerpo();
-             String proc = blq.*/
-             System.out.println("void" + " "+ id + " " + fpl);
-             RESULT = "void" + " "+ id + " " + fpl;
+            
+             DefProc proc = new DefProc(p,id,fpl,pyc1,blq,pyc2);
+             System.out.println(proc.toString());
+             RESULT = proc;
              
             :}
             |procedure:p identifier:id punto_y_coma:pyc1 BLQ:blq punto_y_coma:pyc2
             {:
-             
-               System.out.println("void" + " "+ id + " " +  "( void )");
-              RESULT = "void" + " "+ id + " " + "( void )";
+          
+              
+              DefProc proc = new DefProc(p,id,pyc1,blq,pyc2);
+              System.out.println(proc.toString());
+              RESULT = proc;
               
             :}
              ;
@@ -503,24 +519,39 @@ DEFPROC ::= procedure:p identifier:id FORMAL_PARAMLIST:fpl punto_y_coma:pyc1 BLQ
 * "function" identifier FORMAL_PARAMLIST ":" TBAS ";" BLQ ";"
 */
 
-DEFFUN ::=  function:f identifier:id FORMAL_PARAMLIST:fpl dospuntos:dp TBAS:tipo punto_y_coma:pyc1 BLQ:blq punto_y_coma:pyc2
+DEFFUN ::=  function:f identifier:id X FORMAL_PARAMLIST:fpl dospuntos:dp TBAS:tipo punto_y_coma:pyc1 BLQ:blq punto_y_coma:pyc2
             {:
-               System.out.println(tipo + " "+ id + " " + fpl);
-               RESULT = tipo + " "+ id + " " + fpl;
+             
+             
+             DefFun fun = new DefFun(f,id,fpl,dp,tipo,pyc1,blq,pyc2);
+             fun.setCabecera(tipo + " " + id + " "+ fpl + "\n");
+             this.nombrefuncion = id;
+             System.out.println(fun.toString());
+             RESULT = fun;
                
             :}
             |function:f identifier:id dospuntos:dp TBAS:tipo punto_y_coma:pyc1 BLQ:blq punto_y_coma:pyc2
             {:
-             System.out.println(tipo + " "+ id + " " + "( void )");
-              RESULT =  tipo + " "+ id + " " + "( void )";
+        
+             DefFun fun = new DefFun(f,id,dp,tipo,pyc1,blq,pyc2);
+             System.out.println(fun.toString());
+             RESULT = fun;
              
             :}
              ;
 
 
+/*
+*  Acción ficticia que asocia el valor del nombre de la función 
+*/
 
-
-
+X::= {:
+           Symbol s = (Symbol) stack.peek();
+           this.nombrefuncion = s.value.toString();
+           System.out.println(s.value.toString());
+           String RESULT = s.value.toString();
+     :}
+      ;
 /*
 * FORMAL_PARAMLIST ::=ʎ | "(" FORMAL_PARAM ")"
 */
@@ -550,10 +581,12 @@ FORMAL_PARAMLIST ::= abre_parent:ap FORMAL_PARAM:fp cierra_parent:cp
 FORMAL_PARAM ::= VARLIST:vl dospuntos:dp TBAS:tipo
                 {:
                   String param = "";
+                  
                 //[v3,v2,v1]
                   for(String id: vl) {
                 	    param = tipo + " " + id + " "  + param;
                   }
+                  
                  RESULT = param;
                 :}
                 
@@ -606,11 +639,13 @@ TBAS ::= integer:integer
 
 SENT ::= ASIG:asig punto_y_coma:pyc
           {:
+            System.out.println(this.nombreFuncion);
             RESULT = new Sent(asig,pyc);
           :}
-          |PROC_CALL:pc punto_y_coma:pyc
+          |PROC_CALL:proc_call punto_y_coma:pyc
           {:
-            RESULT = new Sent(pyc,pc);
+          
+            RESULT = new Sent(pyc, proc_call);
           :}
           |word_if:wi EXPCOND:expCond word_then:wt BLQ:blq1 word_else:we BLQ:blq2
           {:
@@ -660,14 +695,19 @@ INC ::=  word_to:wt
 * ASIG ::= ID ":=" EXP
 */
 
-ASIG ::= ID:id asignacion:asig EXP:ex
+ASIG ::= ID:id asignacion:asig EXP:exp
          {:
-            RESULT = new Asig(id,asig,ex);
+                       if(this.nombrefuncion.equals(id)){
+                           RESULT = "return " + " = " + exp;
+                       }else{
+                          RESULT = id + " = " + exp;
+                       }
+           
          :}
-         |ID:id  EXP:ex
+         |ID:id  EXP:exp
          {:
             parser.syntax_error("Symbol [:=] spanning from ",idxleft, idxright); 
-            RESULT = new Asig(id,":=",ex);
+            RESULT = id + " = " + exp;
          :}
          ;
 
@@ -678,7 +718,7 @@ ASIG ::= ID:id asignacion:asig EXP:ex
 
 ID ::= identifier:id
       {:
-        RESULT = new Id(id);
+        RESULT = id;
       :}
       ;
     
@@ -694,11 +734,12 @@ ID ::= identifier:id
 
 EXP ::= EXP:exp1 OP:op EXP:exp2
         {:
-            RESULT = new Exp(exp1,op,exp2);
+            RESULT =  exp1 + op +exp2;
           :}
          |FACTOR:f
          {:
-           RESULT = new Exp(f);
+          
+           RESULT = f;
           :}
           ;
 
@@ -712,7 +753,7 @@ EXP ::= EXP:exp1 OP:op EXP:exp2
 
 OP ::= OPARIT:opa
        {:
-          RESULT = new Op(opa);
+          RESULT = opa;
         :}
         ;
 
@@ -725,23 +766,23 @@ OP ::= OPARIT:opa
 
 OPARIT ::= op_suma:suma
            {:
-               RESULT = "+";
+               RESULT = " + ";
             :}
             |op_resta:resta
             {:
-               RESULT = "-";
+               RESULT = " - ";
             :}
             |op_mult:mult
             {:
-               RESULT = "*";
+               RESULT = " * ";
             :}
             |op_div:div
             {:
-               RESULT = "/";
+               RESULT = " / ";
             :}
             |op_mod:mod
             {:
-              RESULT = "%"";
+              RESULT = " % ";
             :}
             ;
             
@@ -758,19 +799,20 @@ OPARIT ::= op_suma:suma
 
 FACTOR ::= SIMPVALUE:c
             {:
-               RESULT = new Factor(c);
+               RESULT = c;
             :}
             | abre_parent:ap EXP:exp cierra_parent:cp
             {:
-                RESULT = new Factor(ap,exp,cp);
+                RESULT = ap + exp +cp;
             :}
             | identifier:id SUBPPARAMLIST:spl
             {:
-                RESULT = new Factor(id,spl);
+                
+                RESULT =  id + " "+ spl;
             :}
             |identifier:id
             {:
-             RESULT = new Factor(id);
+             RESULT = id;
             :}
             ;
 
@@ -780,9 +822,15 @@ FACTOR ::= SIMPVALUE:c
 * SUBPPARAMLIST ::= lambda | "(" EXPLIST ")"
 */
 
-SUBPPARAMLIST ::= abre_parent:ap EXPLIST:expl cierra_parent:cp
+SUBPPARAMLIST ::= abre_parent:ap EXPLIST:explist cierra_parent:cp
                   {:
-                     RESULT = new SubpparamList(ap,expl,cp);
+                     String aux = "";
+                      for(String exp: explist){
+                           aux += exp ;
+                       }
+                  
+                    
+                     RESULT = ap + aux + cp;
                   :}
                   ;
 
@@ -795,16 +843,20 @@ SUBPPARAMLIST ::= abre_parent:ap EXPLIST:expl cierra_parent:cp
 
 EXPLIST ::= EXP:exp
             {:
-              RESULT = new ExpList(exp);
+              ArrayDeque<String> list = new ArrayDeque<>();
+              list.add(exp);
+              RESULT = list;
             :}
             |EXP:exp coma:coma EXPLIST:expl
             {:
-             RESULT = new ExpList(exp,coma,expl);
+             expl.addFirst(exp + coma);
+             RESULT = expl;
             :}
             |EXP:exp  EXPLIST:expl
             {:
                 parser.syntax_error("Symbol [,] spanning from ",expxleft, expxright); 
-                RESULT = new ExpList(exp,",",expl);
+                 expl.addFirst(exp + ", ");
+                RESULT = expl;
             :}
             ;
 
@@ -817,11 +869,11 @@ EXPLIST ::= EXP:exp
 
 PROC_CALL ::= identifier:id SUBPPARAMLIST:spl
               {:
-                RESULT = new Proc_call(id,spl);
+                RESULT = id + " "+ spl;
               :}
               |identifier:id
               {:
-               RESULT = new Proc_call(id);
+               RESULT = id;
               :}
               ;
   
@@ -833,11 +885,11 @@ PROC_CALL ::= identifier:id SUBPPARAMLIST:spl
 
 EXPCOND ::= EXPCOND:ec1 OPLOG:ol EXPCOND:ec2
             {:
-              RESULT = new ExpCond(ec1,ol,ec2);
+              RESULT = ec1 + ol + ec2;
             :}
             |FACTORCOND:fc
             {:
-              RESULT = new ExpCond(fc);
+              RESULT = fc;
             :}
             ;
             
@@ -850,11 +902,11 @@ EXPCOND ::= EXPCOND:ec1 OPLOG:ol EXPCOND:ec2
 
 OPLOG ::= opl_or:opl_or
          {:
-           RESULT = "||";
+           RESULT = " || ";
          :}
          |opl_and:opl_and
          {:
-          RESULT = "&&";
+          RESULT = " && ";
          :}
          ;
 
@@ -868,15 +920,15 @@ OPLOG ::= opl_or:opl_or
 
 FACTORCOND ::= EXP:exp1 OPCOMP:opComp EXP:exp2
                {:
-                  RESULT = new FactorCond(exp1, opComp, exp2);
+                  RESULT = exp1 + opComp + exp2;
                :}
                |not:not FACTORCOND:fc
                {:
-                 RESULT = new FactorCond(not,fc);
+                 RESULT = "!" + fc;
                :}
                |abre_parent:ap EXP:exp cierra_parent:cp
                {:
-                 RESULT = new FactorCond(exp,ap,cp);
+                 RESULT = ap + exp + cp;
                :}
                ;
 
@@ -891,25 +943,25 @@ FACTORCOND ::= EXP:exp1 OPCOMP:opComp EXP:exp2
 
 OPCOMP ::= opr_menor:opr_menor
            {:
-             RESULT = "<";
+             RESULT = " < ";
              
              
            :}
            |opr_mayor:opr_mayor
            {:
-             RESULT = ">";
+             RESULT = " > ";
            :}
            |opr_menor_igual:opr_menor_igual
            {:
-             RESULT = "<=";   
+             RESULT = " <= ";   
            :}
            |opr_mayor_igual:opr_mayor_igual
            {:
-             RESULT = ">=";   
+             RESULT = " >= ";   
            :}
            |opr_iguales:opr_iguales
            {:
-             RESULT = "==";  
+             RESULT = " == ";  
               
            :}
            ;

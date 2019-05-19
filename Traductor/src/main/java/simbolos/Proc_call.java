@@ -5,15 +5,15 @@ import java.io.PrintWriter;
 public class Proc_call extends NoTerminal {
 
 	private String identifier;
-	private SubpparamList subparamlist;
+	private String subparamlist;
 	
 	
 	
 	
 	
-	public Proc_call(String identifier, NoTerminal spl) {
+	public Proc_call(String identifier, String spl) {
 		this.identifier = identifier;
-		this.subparamlist = (SubpparamList) spl;
+		this.subparamlist = spl;
 	}
 
 

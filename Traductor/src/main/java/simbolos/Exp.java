@@ -10,7 +10,7 @@ public class Exp extends NoTerminal{
 	private Exp exp1;
 	private Op op;
 	private Exp exp2;
-	private Factor factor;
+	private String factor;
 	
 	
 	public Exp(NoTerminal exp1, NoTerminal op, NoTerminal exp2) {
@@ -25,9 +25,9 @@ public class Exp extends NoTerminal{
 	
 	
 	
-	public Exp(NoTerminal factor) {
+	public Exp(String factor) {
 		super();
-		this.factor = (Factor) factor;
+		this.factor =  factor;
 	}
 
 

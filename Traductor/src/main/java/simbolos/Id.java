@@ -7,7 +7,7 @@ import java.io.PrintWriter;
 
 public class Id extends NoTerminal{
     
-	private String identifier;
+	private String identifier = "";
 	
 	
 	public Id(String identifier) {
@@ -17,12 +17,8 @@ public class Id extends NoTerminal{
 
 
 	
-	
-	
-	
-	
-	
-	public String getId() {
+
+	public String getIdentifier() {
 		return identifier;
 	}
 

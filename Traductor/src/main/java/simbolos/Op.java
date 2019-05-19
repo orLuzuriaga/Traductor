@@ -5,13 +5,19 @@ import java.io.PrintWriter;
 public class Op extends NoTerminal{
 
 	
-	private OpArit opArit;
+	private String opArit;
 	
 	
 	
-	public Op(NoTerminal opArit) {
+	public Op(String opArit) {
 		super();
-		this.opArit = (OpArit) opArit;
+		this.opArit =  opArit;
+	}
+
+
+
+	public String getOpArit() {
+		return opArit;
 	}
 
 

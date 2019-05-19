@@ -2,6 +2,7 @@ package simbolos;
 
 import simbolos.*;
 import java.io.PrintWriter;
+import java.util.ArrayDeque;
 
 
 public class Prg extends NoTerminal{
@@ -17,7 +18,7 @@ public class Prg extends NoTerminal{
 	private Blq blq;
 	private String punto;
 	private String unit;
-	private DclList dclList;
+	private ArrayDeque<Dcl> dclList;
 	
 	
 	
@@ -38,17 +39,26 @@ public class Prg extends NoTerminal{
 
 
 
-	public Prg(String identifier, String puntoYcoma, String punto, String unit, NoTerminal dclList) {
+	public Prg(String identifier, String puntoYcoma, String punto, String unit, ArrayDeque<Dcl> dclList) {
 
 		this.identifier = identifier;
 		this.puntoYcoma = puntoYcoma;
 		this.punto = punto;
 		this.unit = unit;
-		this.dclList = (DclList) dclList;
+		this.dclList = dclList;
 	}
 
 
 
+	 public  String toString() {
+	    	  String  cabecera  =  this.program+ " " + this.identifier + "\n";
+	    	  return  cabecera;
+	    	
+	    }
+
+	    
+	
+		
 
 
 
