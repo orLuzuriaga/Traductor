@@ -16,9 +16,8 @@ parser code {:
     
     
     public NoTerminal programa;
-    public String nombrefuncion;
     public NoTerminal getProgram(){
-     return this.programa;
+    return this.programa;
     }
     
    
@@ -166,7 +165,7 @@ non terminal String FACTORCOND;
 non terminal String OPCOMP;
 non terminal NoTerminal INC;
 
-non terminal String X;
+//non terminal String X;
 
 
 
@@ -271,8 +270,7 @@ DCLLIST ::= DCLLIST:dclList DCL:dcl
 SENTLIST ::= SENT:s
               {:
               ArrayDeque<Sent> sentList = new ArrayDeque<>();
-              System.out.println(nf);
-              s.setNombreFuncion(nf);
+             
               sentList.add((Sent)s);
               RESULT = sentList;
               :}
@@ -519,13 +517,12 @@ DEFPROC ::= procedure:p identifier:id FORMAL_PARAMLIST:fpl punto_y_coma:pyc1 BLQ
 * "function" identifier FORMAL_PARAMLIST ":" TBAS ";" BLQ ";"
 */
 
-DEFFUN ::=  function:f identifier:id X FORMAL_PARAMLIST:fpl dospuntos:dp TBAS:tipo punto_y_coma:pyc1 BLQ:blq punto_y_coma:pyc2
+DEFFUN ::=  function:f identifier:id FORMAL_PARAMLIST:fpl dospuntos:dp TBAS:tipo punto_y_coma:pyc1 BLQ:blq punto_y_coma:pyc2
             {:
              
              
              DefFun fun = new DefFun(f,id,fpl,dp,tipo,pyc1,blq,pyc2);
              fun.setCabecera(tipo + " " + id + " "+ fpl + "\n");
-             this.nombrefuncion = id;
              System.out.println(fun.toString());
              RESULT = fun;
                
@@ -544,7 +541,7 @@ DEFFUN ::=  function:f identifier:id X FORMAL_PARAMLIST:fpl dospuntos:dp TBAS:ti
 /*
 *  Acción ficticia que asocia el valor del nombre de la función 
 */
-
+/*
 X::= {:
            Symbol s = (Symbol) stack.peek();
            this.nombrefuncion = s.value.toString();
@@ -552,6 +549,8 @@ X::= {:
            String RESULT = s.value.toString();
      :}
       ;
+      
+      */
 /*
 * FORMAL_PARAMLIST ::=ʎ | "(" FORMAL_PARAM ")"
 */
@@ -639,8 +638,8 @@ TBAS ::= integer:integer
 
 SENT ::= ASIG:asig punto_y_coma:pyc
           {:
-            System.out.println(this.nombreFuncion);
-            RESULT = new Sent(asig,pyc);
+            //System.out.println(this.nombreFuncion);
+            RESULT = new Sent(pyc,asig);
           :}
           |PROC_CALL:proc_call punto_y_coma:pyc
           {:
@@ -696,13 +695,8 @@ INC ::=  word_to:wt
 */
 
 ASIG ::= ID:id asignacion:asig EXP:exp
-         {:
-                       if(this.nombrefuncion.equals(id)){
-                           RESULT = "return " + " = " + exp;
-                       }else{
-                          RESULT = id + " = " + exp;
-                       }
-           
+         {:   
+             RESULT = id + " = " + exp;
          :}
          |ID:id  EXP:exp
          {:

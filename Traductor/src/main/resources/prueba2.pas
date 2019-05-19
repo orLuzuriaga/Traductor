@@ -19,7 +19,7 @@ var ident_var_1, ident_var_2 : INTEGER; varReal2 : REAL;
 begin
   ident_var_1 := const_Exponencial * const_Entera;
   ident_var_2 := (399 div 20 ) + vInt2;
-  ident_var_3 := vInt1 + ( ident_var_1 * ident_var_2);
+  ident_var_2 := vInt1 + ( ident_var_1 * ident_var_2);
   varReal2 := funcion1 (ident_var_1, ident_var_2, varReal2);
   total := varReal2 div vReal1;
 end;
@@ -31,9 +31,6 @@ begin
    ident_var_1 := (vInt1 + vInt2) div vReal1;
    funcion1 := indet_var_1;
 end;
-
-
-
 
 
 begin 
