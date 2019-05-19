@@ -5,7 +5,7 @@
  - Funciones y procedimientos
  *)
 
-unit prueba_2;
+program prueba_2;
 { comentario de linea: declaracion de constantes
 
 const  const_Exponencial = 123E456;
