@@ -4,7 +4,7 @@
  - variables
  - bloque principal de sentencias
  *)
-program prueba_1;
+unit prueba_1;
 { comentario de linea: declaracion de constantes
 
 const  const_Exponencial = 123E456;

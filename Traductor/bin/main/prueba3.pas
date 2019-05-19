@@ -10,13 +10,56 @@ PROGRAM prueba_3;
 const LIMITE = 1000;
 var maximo:INTEGER;
 
+procedure contardorFor (maximo: INTEGER);
+begin
+  for contador := 0 to maximo do
+    begin
+      escribe('Estoy por el numero');
+      escribe(contador);
+    end
+end;
+
+procedure contardorFor
+var maximo:INTEGER;
+begin
+  for contador := 0 to maximo do
+    begin
+      escribe('Estoy por el numero');
+      escribe(contador);
+    end
+end;
+
+function contadorRepeat: REAL;
+var maximo:INTEGER;
+begin
+  repeat
+    begin
+        escribe('Estoy por el numero');
+        contador := contador + 1;
+        escribe(contador);
+    end
+  until contador <= maximo or contador = LIMITE;
+end;
 
 
-procedure contadorWhile(maximo: INTEGER);
+function contadorWhile(maximo: INTEGER): INTEGER;
 var contador:INTEGER;
 begin
+  while contador <= maximo and  contador < LIMITE do
+  begin
+    escribe('Estoy por el numero');
+    contador := contador + 1;
+    escribe(contador);
+  end
+ contadorWhile := contador;
+end;
+
+
+begin
+  escribe('Hasta donde tengo que contar');
+  leer(maximo);
   
-  if 3 < 5  then
+  if maximo < LIMITE  then
   begin
     contadorFor(maximo);
     contadoRepeat(maximo);
@@ -27,10 +70,5 @@ begin
    escribe('Valor indicado no valido, limite maximo establecido en:');
    escribe(LIMITE);
   end
-end;
 
-
-begin
-  escribe('Hasta donde tengo que contar');
-  leer(maximo);
 end.

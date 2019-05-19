@@ -1,4 +1,6 @@
 /* ---------------Seccion de declaraciones preliminares--------------------*/
+
+
 package LexicoSintactico;
 
 import java_cup.runtime.*;
@@ -188,21 +190,24 @@ precedence left opl_or, opl_and;
 
 /*
 * PRG ::= "program" identifier ";" BLQ "."
-          | PRG ::= â€¦ | "UNIT" identifier ";" DCLLIST "."
+          | PRG ::=  | "UNIT" identifier ";" DCLLIST "."
 */
 
 PRG ::= program:nombre identifier:id punto_y_coma:pyc BLQ:blq punto:pto
                   {:
-                      Prg prg = new Prg(nombre, id, pyc, blq, pto);
+                     Prg prg = new Prg(nombre, id, pyc, blq, pto);
+                     
+                   
                      System.out.println(prg.toString());
                      RESULT = prg;
                      parser.programa = RESULT;
                      
                   :}
+                  
                   |unit:nombre identifier:id punto_y_coma:pyc DCLLIST:dcl punto:pto
                   {:
                     Prg unit = new Prg(id, pyc, pto,nombre,dcl);
-                    System.out.println(unit.toString());
+                    
                     RESULT = unit; 
                      parser.programa = RESULT;
                   :}
@@ -321,7 +326,7 @@ DEFCTE ::= word_const:wc  CTELIST:cl
                String consts = "";
                DefCte dc = new DefCte("#define",cl);
                for(String c: cl){
-                 consts += "#define "  + c.toString();
+                 consts += "#define "  + c.toString() + "\n";
                }
               
                
@@ -493,22 +498,42 @@ VARLIST::= identifier:id
 /*
 * DEFPROC ::= "procedure" identifier FORMAL_PARAMLIST ";" BLQ ";"
 */
-
+            //CON PARAMETROS
 DEFPROC ::= procedure:p identifier:id FORMAL_PARAMLIST:fpl punto_y_coma:pyc1 BLQ:blq punto_y_coma:pyc2
             {:
-            
+                 
+             String cuerpo = "";
+             String cabecera = "";
              DefProc proc = new DefProc(p,id,fpl,pyc1,blq,pyc2);
-             System.out.println(proc.toString());
+             cabecera = "void" + " "+ id+ " " + fpl + "\n";
+             Blq b = (Blq)blq;
+              cuerpo += b.getBegin() + "\n";
+             for(String sent: b.getSentlist()){
+               cuerpo += sent;
+              }
+             cuerpo += b.getEnd() + "\n";
+             proc.setProCompleto(cabecera + cuerpo);
+           //  System.out.println(cabecera + cuerpo);
              RESULT = proc;
              
             :}
+            //SIN PARAMETROS
             |procedure:p identifier:id punto_y_coma:pyc1 BLQ:blq punto_y_coma:pyc2
             {:
-          
-              
-              DefProc proc = new DefProc(p,id,pyc1,blq,pyc2);
-              System.out.println(proc.toString());
-              RESULT = proc;
+           
+             String cuerpo = "";
+             String cabecera = "";
+             DefProc proc = new DefProc(p,id,pyc1,blq,pyc2);
+             cabecera = "void"  + " "+ id + " " + "( void )" + "\n";
+             Blq b = (Blq)blq;
+              cuerpo += b.getBegin() + "\n";
+             for(String sent: b.getSentlist()){
+               cuerpo += sent;
+              }
+             cuerpo += b.getEnd() + "\n";
+             proc.setProCompleto(cabecera + cuerpo);
+           //  System.out.println(cabecera + cuerpo);
+             RESULT = proc;
               
             :}
              ;
@@ -525,22 +550,33 @@ DEFFUN ::=  function:f identifier:id  FORMAL_PARAMLIST:fpl dospuntos:dp TBAS:tip
              String cabecera = "";
              DefFun fun = new DefFun(f,id,fpl,dp,tipo,pyc1,blq,pyc2);
              cabecera = tipo + " " + id + " "+ fpl + "\n";
-               Blq b = (Blq)blq;
+              
+             Blq b = (Blq)blq;
+             cuerpo += b.getBegin() + "\n";
+             for(String sent: b.getSentlist()){
+               cuerpo += sent;
+              }
+              cuerpo += b.getEnd() + "\n"; 
+             fun.setFunCompleta(cabecera + cuerpo);
+           //  System.out.println(cabecera + cuerpo);
+             RESULT = fun;
+               
+            :}
+            |function:f identifier:id dospuntos:dp TBAS:tipo punto_y_coma:pyc1 X BLQ:blq punto_y_coma:pyc2
+            {:
+             String cuerpo = "";
+             String cabecera = "";
+             DefFun fun = new DefFun(f,id,dp,tipo,pyc1,blq,pyc2);
+             cabecera = tipo + " "+ id + " " + "( void )" + "\n";
+             Blq b = (Blq)blq;
+             cuerpo += b.getBegin() + "\n";
              for(String sent: b.getSentlist()){
                cuerpo += sent;
               }
               
-         
+             cuerpo += b.getEnd() + "\n";
              fun.setFunCompleta(cabecera + cuerpo);
-             System.out.println(cabecera + cuerpo);
-             RESULT = fun;
-               
-            :}
-            |function:f identifier:id dospuntos:dp TBAS:tipo punto_y_coma:pyc1 BLQ:blq punto_y_coma:pyc2
-            {:
-        
-             DefFun fun = new DefFun(f,id,dp,tipo,pyc1,blq,pyc2);
-             System.out.println(fun.toString());
+           //  System.out.println(cabecera + cuerpo);
              RESULT = fun;
              
             :}
@@ -554,14 +590,13 @@ DEFFUN ::=  function:f identifier:id  FORMAL_PARAMLIST:fpl dospuntos:dp TBAS:tip
 X::= {:
            Symbol s = (Symbol) stack.get(6);
            this.nombrefuncion = s.value.toString();
-           System.out.println(s.value.toString());
            RESULT = s.value.toString();
      :}
       ;
       
      
 /*
-* FORMAL_PARAMLIST ::=ʎ | "(" FORMAL_PARAM ")"
+* FORMAL_PARAMLIST ::= ʎ | "(" FORMAL_PARAM ")"
 */
 FORMAL_PARAMLIST ::= abre_parent:ap FORMAL_PARAM:fp cierra_parent:cp
                      {:
@@ -569,11 +604,7 @@ FORMAL_PARAMLIST ::= abre_parent:ap FORMAL_PARAM:fp cierra_parent:cp
                        RESULT = ap  + fp + cp;
                       
                       :}
-                      |abre_parent:ap cierra_parent:cp
-                      {:
-                         RESULT = ap + "void" + cp;
-                        
-                      :}
+             
                       ;
 
 
@@ -708,15 +739,14 @@ ASIG ::= ID:id asignacion:asig EXP:exp
          {:   
             
             if(this.nombrefuncion != null){
-             if(this.nombrefuncion.equals(id)){
-               RESULT = "return " + " = " + exp;
+	             if(this.nombrefuncion.equals(id)){
+	               RESULT = "return " + " = " + exp;
+	             }else{
+	              RESULT = id + " = " + exp;
+	            }
              }else{
-              RESULT = id + " = " + exp;
-            }
-             }
-            }else{
                 RESULT = id + " = " + exp;
-            }
+             }
             
             
          :}
