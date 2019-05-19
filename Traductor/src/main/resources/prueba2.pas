@@ -50,4 +50,9 @@ begin
    funSinParam := indet_var_1 + ident_var_2;
 end;
 
-.
+
+begin 
+  string_const_1 := 'el resultado''Total'' es: ';
+  procedimiento1(( vReal1 * vInt3) +  const_Entera, 34, (3 mod 5) div 10 );
+  string_const_2 := const_literal;
+end.
