@@ -18,7 +18,6 @@ public class DefFun extends NoTerminal{
 
 	private String funCompleta;
 	
-	private String cabecera = "";
 	
 	public DefFun(String function, String identifier, String fpl, String dosPuntos, String tbas,
 			String puntoYcoma1, NoTerminal blq, String puntoYcoma2) {
@@ -73,5 +72,58 @@ public class DefFun extends NoTerminal{
 
 	
 	
+	
+	private String concatVar() {
+			String vars = "";
+			try {
+				
+				if(blq.getDclList() !=null) {
+					 for(Dcl dcl: blq.getDclList()){
+			               if ((dcl.getTipoDcl() == 'v') && (dcl.getDefVar()!= null) ){
+			                   vars+= dcl.getDefVar()  + "\n";;
+			               }
+			          }	
+					
+				}
+				 
+				 
+			} catch (Exception e) {
+				System.err.println(e.getMessage());
+			}
+			
+
+		return vars;	
+	}
+	
+	
+	
+	private String concatSent() {
+		String sents = "";
+		if(this.blq.getSentlist()!= null)
+		  for(String sent: this.blq.getSentlist()){
+              sents += sent;
+             }
+		return sents;
+		
+		
+	}
+	
+	
+	public String toString() {
+		String funcCom = "";
+		String cabecera = "";
+		
+		if(this.fpl != null) {
+			cabecera = this.tbas + " " + this.identifier + " "+ this.fpl + "\n";
+		}else {
+		    cabecera = this.tbas + " "+ this.identifier + " " + "( void )" + "\n";
+		}
+		funcCom += this.blq.getBegin() + "\n";
+		funcCom += concatVar();
+		funcCom += concatSent();
+		funcCom += this.blq.getEnd() + "\n";
+		
+		return cabecera + funcCom ;	
+	}
 
 }

@@ -552,7 +552,7 @@ private String nombrefuncion;
 		String pto = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.peek()).value;
 		
                     Prg unit = new Prg(id, pyc, pto,nombre,dcl);
-                     System.out.println(unit.toString());
+                    System.out.println(unit.toString());
                     RESULT = unit; 
                      parser.programa = RESULT;
                   
@@ -1228,18 +1228,8 @@ private String nombrefuncion;
 		String pyc2 = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.peek()).value;
 		
                  
-             String cuerpo = "";
-             String cabecera = "";
+            
              DefProc proc = new DefProc(p,id,fpl,pyc1,blq,pyc2);
-             cabecera = "void" + " "+ id+ " " + fpl + "\n";
-             Blq b = (Blq)blq;
-              cuerpo += b.getBegin() + "\n";
-             for(String sent: b.getSentlist()){
-               cuerpo += sent;
-              }
-             cuerpo += b.getEnd() + "\n";
-             proc.setProCompleto(cabecera + cuerpo);
-           //  System.out.println(cabecera + cuerpo);
              RESULT = proc;
              
             
@@ -1267,19 +1257,7 @@ private String nombrefuncion;
 		Location pyc2xright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$AnalizadorSintactico$stack.peek()).xright;
 		String pyc2 = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.peek()).value;
 		
-           
-             String cuerpo = "";
-             String cabecera = "";
              DefProc proc = new DefProc(p,id,pyc1,blq,pyc2);
-             cabecera = "void"  + " "+ id + " " + "( void )" + "\n";
-             Blq b = (Blq)blq;
-              cuerpo += b.getBegin() + "\n";
-             for(String sent: b.getSentlist()){
-               cuerpo += sent;
-              }
-             cuerpo += b.getEnd() + "\n";
-             proc.setProCompleto(cabecera + cuerpo);
-           //  System.out.println(cabecera + cuerpo);
              RESULT = proc;
               
             
@@ -1317,19 +1295,8 @@ private String nombrefuncion;
 		String pyc2 = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.peek()).value;
 		
              
-             String cuerpo = "";
-             String cabecera = "";
+            
              DefFun fun = new DefFun(f,id,fpl,dp,tipo,pyc1,blq,pyc2);
-             cabecera = tipo + " " + id + " "+ fpl + "\n";
-              
-             Blq b = (Blq)blq;
-             cuerpo += b.getBegin() + "\n";
-             for(String sent: b.getSentlist()){
-               cuerpo += sent;
-              }
-              cuerpo += b.getEnd() + "\n"; 
-             fun.setFunCompleta(cabecera + cuerpo);
-           //  System.out.println(cabecera + cuerpo);
              RESULT = fun;
                
             
@@ -1363,19 +1330,8 @@ private String nombrefuncion;
 		Location pyc2xright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$AnalizadorSintactico$stack.peek()).xright;
 		String pyc2 = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.peek()).value;
 		
-             String cuerpo = "";
-             String cabecera = "";
+            
              DefFun fun = new DefFun(f,id,dp,tipo,pyc1,blq,pyc2);
-             cabecera = tipo + " "+ id + " " + "( void )" + "\n";
-             Blq b = (Blq)blq;
-             cuerpo += b.getBegin() + "\n";
-             for(String sent: b.getSentlist()){
-               cuerpo += sent;
-              }
-              
-             cuerpo += b.getEnd() + "\n";
-             fun.setFunCompleta(cabecera + cuerpo);
-           //  System.out.println(cabecera + cuerpo);
              RESULT = fun;
              
             
@@ -1721,7 +1677,7 @@ private String nombrefuncion;
             
             if(this.nombrefuncion != null){
 	             if(this.nombrefuncion.equals(id)){
-	               RESULT = "return " + " = " + exp;
+	               RESULT = "return "  + exp;
 	             }else{
 	              RESULT = id + " = " + exp;
 	            }

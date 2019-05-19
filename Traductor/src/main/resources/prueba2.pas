@@ -5,7 +5,7 @@
  - Funciones y procedimientos
  *)
 
-program prueba_2;
+UNIT prueba_2;
 { comentario de linea: declaracion de constantes
 
 const  const_Exponencial = 123E456;
@@ -48,11 +48,4 @@ begin
    ident_var_1 := (400 + 123) div 10;
    ident_var_2 := (1000 div 100 );
    funSinParam := indet_var_1 + ident_var_2;
-end;
-
-
-begin 
-  string_const_1 := 'el resultado''Total'' es: ';
-  procedimiento1(( vReal1 * vInt3) +  const_Entera, 34, (3 mod 5) div 10 );
-  string_const_2 := const_literal;
-end.
+end;.

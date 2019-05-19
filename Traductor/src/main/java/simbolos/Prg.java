@@ -58,13 +58,13 @@ private String cuerpoPrg() {
 	String cuerpo = "";
 	String consts = "";
 	try {
-		
+		if(blq.getDclList() != null) {
 		  for(Dcl dcl: blq.getDclList()){
                if((dcl.getTipoDcl() == 'f') && (dcl.getDefFun() != null) ){
-                  cuerpo += dcl.getDefFun().getFunCompleta() + "\n";;
+                  cuerpo += dcl.getDefFun().toString() + "\n";;
                   
                }else if ((dcl.getTipoDcl() == 'p') &&  (dcl.getDefProc() != null) ){
-                  cuerpo += dcl.getDefProc().getProCompleta() + "\n";
+                  cuerpo += dcl.getDefProc().toString() + "\n";
                
                }else if ((dcl.getTipoDcl() == 'c') && (dcl.getDefCte()!= null)){
                  consts= dcl.getDefCte() + consts ;
@@ -72,13 +72,13 @@ private String cuerpoPrg() {
                }
           }
           
-		
+	}
 	} catch (Exception e) {
 	 System.err.println(e.getLocalizedMessage());
 	}
 	 
 	
-	return consts+"\n" + cuerpo;
+	return consts+ "\n" + cuerpo;
 }
 
 	
@@ -89,23 +89,25 @@ private String cuerpoUnit() {
 	String consts = "";
 	String vars = "";
 	try {
-		
-		  for(Dcl dcl: blq.getDclList()){
-               if((dcl.getTipoDcl() == 'f') && (dcl.getDefFun() != null) ){
-                  cuerpo += dcl.getDefFun().getFunCompleta() + "\n";;
-                  
-               }else if ((dcl.getTipoDcl() == 'p') &&  (dcl.getDefProc() != null) ){
-                  cuerpo += dcl.getDefProc().getProCompleta() + "\n";
-               
-               }else if ((dcl.getTipoDcl() == 'c') && (dcl.getDefCte()!= null)){
-                 consts= dcl.getDefCte() + consts ;
-               
-               } if ((dcl.getTipoDcl() == 'v') && (dcl.getDefVar()!= null) ){
-                   vars += dcl.getDefVar()  + "\n";;
-               }
-          }
-          
-		
+		if(this.dclList != null) {
+			 for(Dcl dcl: this.dclList){
+	               if((dcl.getTipoDcl() == 'f') && (dcl.getDefFun() != null) ){
+	                  cuerpo += dcl.getDefFun().toString() + "\n";;
+	                  
+	               }else if ((dcl.getTipoDcl() == 'p') &&  (dcl.getDefProc() != null) ){
+	                  cuerpo += dcl.getDefProc().toString() + "\n";
+	               
+	               }else if ((dcl.getTipoDcl() == 'c') && (dcl.getDefCte()!= null)){
+	                 consts= dcl.getDefCte() + consts ;
+	               
+	               } if ((dcl.getTipoDcl() == 'v') && (dcl.getDefVar()!= null) ){
+	                   vars += dcl.getDefVar()  + "\n";;
+	               }
+	          }
+	          
+			
+		}
+		 
 	} catch (Exception e) {
 	 System.err.println(e.getLocalizedMessage());
 	}
@@ -124,23 +126,23 @@ private String funMain() {
 	String funMain = "void " + "main (void)" +"\n";
 	String vars = "";
 	try {
-		
+		if(blq.getDclList() != null) {
 		  for(Dcl dcl: blq.getDclList()){
                if ((dcl.getTipoDcl() == 'v') && (dcl.getDefVar()!= null) ){
                    vars+= dcl.getDefVar()  + "\n";;
                }
           }
-		  
 		 
 		funMain += this.blq.getBegin() + "\n";
-		funMain += vars +"\n";
-		funMain += "\n";
+		funMain += vars ;
+	
 		for(String sent: blq.getSentlist()) {
-			
 			funMain += sent;
 		}
 		
 		funMain += this.blq.getEnd();
+		
+	}
 	} catch (Exception e) {
 		System.err.println(e.getMessage());
 	}
@@ -155,30 +157,26 @@ private String funMain() {
 	
 	
 	//Devuelve el programa completo
-	public String toString() {
-		String traducFinal = "";
+public String toString() {
+	String traducFinal = "";
+	
+	if(this.program.equalsIgnoreCase("program")) {
+		//Concateno nombre del programa
+		traducFinal += this.program + " " + this.identifier + this.puntoYcoma +"\n";
 		
-		if(this.program.equalsIgnoreCase("program")) {
-			//Concateno nombre del programa
-			traducFinal += this.program + " " + this.identifier + this.puntoYcoma +"\n";
-			
-			//Cocateno la lista de funciones, procedimiento, variables y constantes
-			traducFinal += this.cuerpoPrg();
-			
-			//Concateno la función principal
-			traducFinal += this.funMain();
-			
-		}else if(this.unit.equalsIgnoreCase("unit")){
-			
-			//concateno nombre de la libreria
-			traducFinal += this.unit + " " + this.identifier + this.puntoYcoma +"\n";
-			traducFinal += this.cuerpoUnit();
-			traducFinal += this.punto;
+		//Cocateno la lista de funciones, procedimiento, variables y constantes
+		traducFinal += this.cuerpoPrg();
+		
+		//Concateno la función principal
+		traducFinal += this.funMain();
+		
+	}else if(this.unit.equalsIgnoreCase("unit")){
+		//concateno nombre de la libreria
+		traducFinal += this.unit + " " + this.identifier + this.puntoYcoma +"\n";
+		traducFinal += this.cuerpoUnit();
+		traducFinal += this.punto;
 			
 		}
-		
-		
-		
 		return traducFinal;
 		
 }
