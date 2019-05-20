@@ -7,7 +7,7 @@ public class Dcl extends NoTerminal{
 	// DCL ::= DEFCTE | DEFVAR | DEFPROC | DEFFUN
 	
 	private String defCte = "";
-	private String defVar = "";
+	private DefVar defVar;
 	private DefProc defProc;
 	private DefFun defFun;
 	private char tipoDcl = 'x';
@@ -30,6 +30,10 @@ public class Dcl extends NoTerminal{
 			this.tipoDcl = tipo;
 			break;
 			}
+		case 'v':{
+			this.defVar = (DefVar) defaux;
+			this.tipoDcl = tipo;
+			break;}
 		}
 	}
 
@@ -37,19 +41,11 @@ public class Dcl extends NoTerminal{
 	
 	
 	public Dcl(String defaux, char tipo){
-		switch (tipo) {
-		case 'v':{
-			this.defVar =  defaux;
-			this.tipoDcl = tipo;
-			break;}
-			
 		
-		case 'c':{
 			this.defCte =  defaux;
 			this.tipoDcl = tipo;
-			break;
-			}
-		}
+		
+		
 		
 	}
 
@@ -65,7 +61,7 @@ public class Dcl extends NoTerminal{
 
 
 
-	public String getDefVar() {
+	public DefVar getDefVar() {
 		return defVar;
 	}
 

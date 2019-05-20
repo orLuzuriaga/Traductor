@@ -4,16 +4,41 @@ import java.io.PrintWriter;
 
 public class Inc extends NoTerminal{
 	
-	private String opr = "";
-	private String decInc = "";
-	private String inc = "";
+	// > || <
+	private String mayorMenor = "";
 
-	public Inc(String opr, String dec) {
-		this.opr = opr;
-		this.decInc = dec;
+	
+	//-1 || +1
+	private String decInc = "";
+	
+
+	
+	
+	public Inc(String decInc, String mayorMenor) {
+		this.mayorMenor= mayorMenor;
+		this.decInc = decInc;
 		
 	}
 
+
+
+
+
+
+	public String getMayorMenor() {
+		return mayorMenor;
+	}
+
+
+
+
+	public String getDecInc() {
+		return decInc;
+	}
+
+
+
+	
 	
 	
 	

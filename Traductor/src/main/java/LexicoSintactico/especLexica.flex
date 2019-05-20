@@ -243,12 +243,12 @@ Cte = [Identifier][\s][=][\s][PuntoFijo|Exponencial|Mixto]
                                       const_Literal = "";
                                       
                                       return symbol("constLiteral",sym.string_const, new java.lang.String(aux)); 
-                                     
-                                      
+                                                                 
                                       }
      [\W]                             {concatenar(yytext()); }
                                       
-     {FinDelinea}                     { throw new Error ("No existe caracter de cierre ['] de constante literal "  + " Linea =" + (yyline+1) + " Columna =" + (yycolumn+1)); }
+     {FinDelinea}                     { throw new Error ("No existe caracter de cierre ['] de constante literal " 
+                                          + " Linea =" + (yyline+1) + " Columna =" + (yycolumn+1)); }
 }
 
 
@@ -269,6 +269,8 @@ Cte = [Identifier][\s][=][\s][PuntoFijo|Exponencial|Mixto]
 																   
  [^]                                   {/* ignorar */ }
 }
+
+
 
 
 <<EOF>>                                 { return symbol(sym.EOF); }

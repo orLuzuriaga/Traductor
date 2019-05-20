@@ -11,8 +11,8 @@ public class Blq extends NoTerminal{
 	private String begin;
 	private ArrayDeque<String> sentlist;
 	private String end;
-	private int conTab;
-
+	private int contTabu;
+    private boolean repeat = false;
 
 	
 	public Blq(ArrayDeque<Dcl> dclList, String begin, ArrayDeque<String> sl, String end) {
@@ -70,17 +70,23 @@ public class Blq extends NoTerminal{
 	}
 	
 	
+	public void setContTab(int tab) {
+		this.contTabu= tab;
+	}
 	
-	
-	
 
 
 
 
 
 
-	public void setTab(int tab) {
-		this.conTab= tab;
+
+
+
+
+
+	public boolean isRepeat() {
+		return repeat;
 	}
 
 
@@ -88,107 +94,144 @@ public class Blq extends NoTerminal{
 
 
 
-public String tab(int cont) {
+	public void setRepeat(boolean repeat) {
+		this.repeat = repeat;
+	}
+
+
+
+
+
+
+public String tabulador(int cont) {
 	String tab = "";
 	switch(cont) {
 		case 1:
 		    {
-			tab = " ";
+			tab = "\t";
 			break;
 			}
 		case 2:
 	    {
-			tab = "  ";
+			tab = "\t\t";
+			break;
+		}
+		case 3:
+	    {
+			tab = "\t\t\t";
 			break;
 		}
 	
-		case 3:
-	    {
-			tab = "   ";
-			break;
-		}
-		case 4:
-	    {
-			tab = "    ";
-			break;
-		}
-		case 5:
-	    {
-			tab = "     ";
-			break;
-		}
-		case 6:
-	    {
-			tab = "      ";
-			break;
-		}
+	
 	    default:
-	    	tab =" ";
+	    	tab ="\t";
 	    	break;
 	}
 	
 	
 	return tab;
 }
-
-
-
-
-private String concatVar() {
-	String vars = "";
-	try {
-		
-		if(this.dclList!=null) {
-			 for(Dcl dcl: this.dclList){
-	               if ((dcl.getTipoDcl() == 'v') && (dcl.getDefVar()!= null) ){
-	                   vars+= this.tab(this.conTab+1)+ dcl.getDefVar()  + "\n";
-		               }
-		          }	
-				
+	
+	
+	public String concatVar() {
+		String vars = "";
+		try {
+			
+			if(this.dclList!=null) {
+				 for(Dcl dcl: this.dclList){
+		               if ((dcl.getTipoDcl() == 'v') && (dcl.getDefVar()!= null) ){
+		            	   
+		            	        for(String var : dcl.getDefVar().getDvl()) {
+		            	        	vars+= this.tabulador(this.contTabu) +var+dcl.getDefVar().getPyc() + "\n" ;
+		            	        }
+		                   
+			               }
+			          }	
+					
+				}
+				 
+				 
+			} catch (Exception e) {
+				System.err.println(e.getMessage());
 			}
-			 
-			 
-		} catch (Exception e) {
-			System.err.println(e.getMessage());
-		}
+			
+	
+		return vars;	
+	}
+
+	public String concatSent() {
+		String sents = "";
 		
+		if(this.sentlist!= null)
+		  for(String sent: this.sentlist){
+	          sents += this.tabulador(this.contTabu) + sent;
+	         }
+		return sents;
+		
+		
+	}
 
-	return vars;	
-}
 
 
+
+
+    public String concatConst() {
+    	String consts = "";
+    	
+	try {
+			
+			if(this.dclList!=null) {
+				 for(Dcl dcl: this.dclList){
+		               if ((dcl.getTipoDcl() == 'c') && (dcl.getDefCte() != null) ){
+		                   consts = dcl.getDefCte() + consts;
+			               }
+			          }	
+					
+				}
+				 
+				 
+			} catch (Exception e) {
+				System.err.println(e.getMessage());
+			}
+			
+		return consts;
+    	
+    	
+    }
+    
+    
+    
+    
+	public String concatSub() {
+	String sub = "";
+	
+	try {
+		if(this.dclList != null) {
+			 for(Dcl dcl: this.dclList){
+	               if((dcl.getTipoDcl() == 'f') && (dcl.getDefFun() != null) ){
+	                  sub += dcl.getDefFun().getFunCompleta() + "\n";;
+	                  
+	               }else if ((dcl.getTipoDcl() == 'p') &&  (dcl.getDefProc() != null) ){
+	                  sub += dcl.getDefProc().getProCompleta() + "\n";
+	               }
+		}
+	  }	 
+	} catch (Exception e) {
+	 System.err.println(e.getLocalizedMessage());
+	}
+     return sub;
+	
+   }
 	
 	
 	
-private String concatSent() {
-	String sents = "";
-	
-	if(this.sentlist!= null)
-	  for(String sent: this.sentlist){
-          sents += this.tab(this.conTab+1) + sent;
-         }
-	return sents;
-	
-	
-}
-
-
-
-
-
-
-
-public String toString() {
+	public String toString() {
 	String bloque = "";
-	bloque += this.tab(this.conTab ) + this.begin + "\n";
+	//bloque +=  this.tabulador(this.contTabu)+ this.begin + "\n";
 	bloque +=  this.concatVar();
 	bloque +=  this.concatSent();
-	bloque += this.tab(this.conTab) + this.end + "\n";
-	
-	
-	
+	//if(!this.isRepeat())bloque += this.tabulador(this.contTabu)+ this.end + "\n";
 	return bloque;
-	
 	
 }
 	

@@ -9,14 +9,22 @@ package Traductor;
 
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.Scanner;
-
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java_cup.runtime.ComplexSymbolFactory;
 import LexicoSintactico.AnalizadorLexico;
 import LexicoSintactico.AnalizadorSintactico;
-
-
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import simbolos.*;
 
 
 
@@ -45,15 +53,24 @@ public  static void analizarSintaxis(String prueba) {
 		// ScannerBuffer buffer = new ScannerBuffer(new AnalizadorLexico(new BufferedReader(new FileReader(prueba)), csf));
 		 AnalizadorLexico lexico = new AnalizadorLexico(new BufferedReader(new FileReader(prueba)), csf);
 	     AnalizadorSintactico sintactico = new AnalizadorSintactico(lexico,csf);
-	     
-	     
-	     System.out.println("Sintactico run:");
+	     System.out.println("Sintactico run...");
+	     System.out.println();
 	     sintactico.parse();
 	     
-	     //System.out.println (buffer.getBuffered ());
-	     System.out.println();
-	     System.out.println();
-	     System.out.println("** Analisis sintactico completado con exito **");
+	     Prg prg = (Prg)sintactico.getProgram();
+	     
+	     if(prg.getProgram().equalsIgnoreCase("program")) {
+	    	 escribirFichero(prg.toString(),prg.getIdentifier());
+	    	 System.out.println("** Programa: " + prg.getIdentifier()+".pas" + " traducido con exito **");
+	     }else if(prg.getUnit().equalsIgnoreCase("unit")){
+	    	 escribirFichero(prg.toString(),prg.getIdentifier());
+	    	 System.out.println("** Libreria: " + prg.getIdentifier()+".pas" + " traducida con exito **");
+	     }else {
+	    	 
+	    	 System.out.println("** Error al realizar la traduccción **");
+	     }
+	 
+
 		     
 		     
 		}
@@ -72,7 +89,7 @@ public  static void analizarSintaxis(String prueba) {
 		catch (Exception e) 
 			{
 				System.err.println();
-				System.err.println("ERROR: " +  e.getMessage());
+				System.err.println("ERROR AL REALIZAR LA TRADUCCIÓN: " +  e.getMessage());
 				
 			 
 		 }
@@ -82,7 +99,33 @@ public  static void analizarSintaxis(String prueba) {
 	
 }
 		
+
+
+
+
+public static void escribirFichero(String outFile, String nombre) {
 	
+	  String[] lines = new String[] {outFile};
+      Path path = Paths.get(nombre + "_final"+".c");
+      try (BufferedWriter br = Files.newBufferedWriter(path,
+            Charset.defaultCharset(), StandardOpenOption.CREATE)) {
+    	  
+        Arrays.stream(lines).forEach((s) -> {
+            try {
+               br.write(s);
+               br.newLine();
+            } catch (IOException e) {
+               System.err.println(e.getMessage());
+            }
+
+         });
+      } catch (Exception e) {
+         e.printStackTrace();
+      }
+}
+
+
+
 
 public static void crearAnalizadorLexico(String [] espFlex ){
 	 try {
@@ -120,11 +163,11 @@ public static void menu() {
 	System.out.println("******************************************");
 	System.out.println("***********     Traductor     ************");
 	System.out.println("******************************************");
-	System.out.println("1.Crear analizador lexico:");
+	/*System.out.println("1.Crear analizador lexico:");
 	System.out.println("2.Crear analizador sintactico:");
-	System.out.println("3.Analizar Lexico:");
-	System.out.println("4.Analizar sintactico:");
-	System.out.println("5.Salir: ");
+	System.out.println("3.Analizar Lexico:");*/
+	System.out.println("1.Traducir:");
+	System.out.println("2.Salir: ");
 	System.out.println("Opcion:");
 }
 
@@ -204,13 +247,13 @@ public static void main(String[] args) {
            }*/
 	    
 	  
-	    
+	   
 	    do {
 	    	menu();
 	        valor = teclado.nextInt();
 	        switch (valor) {
 	           
-	        
+	       /*s
 	        case   1:{
 	        	if(args.length == 0)System.out.println("\"Inserta nombre de archivo\" + \"( Use : java Analizador <inputfile> )\"");
 	        	else crearAnalizadorLexico(args);
@@ -244,21 +287,26 @@ public static void main(String[] args) {
 	           analizarLexico(arPrueba);
 	        	}  
 	            break;
-	        }
-	        case 4: {
+	        }*/
+	        case 1: {
 		        
-	        	if(args.length == 0)System.out.println("\"Inserta nombre de archivo\" + \"( Use : java Analizador <inputfile> )\"");
-	        	else {
+	        	if(args.length == 0) {
+	        		 System.out.println("\"Introduce el nombre del archivo que quieres traducir\" -> \"[ Utiliza: java -jar Traductor.jar <nombre archivo.pas> ]\"");
+	        		 System.out.println();
+	        		 valor = 2;
+	        	}else {
 	        		
 	        		for (int i = 0;  i < args.length; i++) {
 						arPrueba += args[i];
 					}
 	        		analizarSintaxis(arPrueba);
+	        		valor = 2;
 	        	}  
+	        	break;
 	        }
 	       
-	            case 5: {
-	          	  System.out.println("Fin de programa.");
+	            case 2: {
+	          	  System.out.println("No Vemos...");
 	              break;
 	          }
 	            
@@ -267,7 +315,7 @@ public static void main(String[] args) {
 	                break;
 	            }
 	        }
-	    } while (valor != 3);
+	    } while (valor != 2);
 	      
 	  
 	            

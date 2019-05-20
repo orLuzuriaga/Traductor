@@ -12,9 +12,9 @@ public class DefProc extends NoTerminal{
 	private String fpl;
 	private String pyc1;
 	private String pyc2;
-	private String proCompleto;
-    
-	
+	private String proCompleta;
+    private String subrrutinas;
+	private String consts;
 	
 	/*
 	* DEFPROC ::= "procedure" identifier FORMAL_PARAMLIST ";" BLQ ";"
@@ -52,21 +52,8 @@ public class DefProc extends NoTerminal{
 
 
 
-
-
-
-
-
-
-
-	
-
-	
-	
-	
-	
-	public String getProCompleto() {
-		return proCompleto;
+	public String getProCompleta() {
+		return proCompleta;
 	}
 
 
@@ -74,8 +61,21 @@ public class DefProc extends NoTerminal{
 
 
 
-	public void setProCompleto(String proCompleto) {
-		this.proCompleto = proCompleto;
+	public void setProCompleta(String proCompleto) {
+		this.proCompleta = proCompleto;
+	}
+
+
+
+
+	public String getSubrrutinas() {
+		return subrrutinas;
+	}
+
+
+
+	public void setSubrrutinas(String subrrutinas) {
+		this.subrrutinas = subrrutinas;
 	}
 
 
@@ -83,67 +83,21 @@ public class DefProc extends NoTerminal{
 
 
 
-	private String concatVar() {
-			String vars = "";
-			try {
-				
-				if(blq.getDclList() !=null) {
-					 for(Dcl dcl: blq.getDclList()){
-			               if ((dcl.getTipoDcl() == 'v') && (dcl.getDefVar()!= null) ){
-			                   vars+= "  "+ dcl.getDefVar()  + "\n";
-			               }
-			          }	
-				}
-			} catch (Exception e) {
-				System.err.println(e.getMessage());
-			}
-			
-
-		return vars;	
-	}
-	
-	
-	
-	
-	
-	private String concatSent() {
-		String sents = "";
-		if(this.blq.getSentlist()!= null)
-		  for(String sent: this.blq.getSentlist()){
-              sents += "  "+  sent;
-             }
-		return sents;
-		
-		
-	}
-	
-	
-
-	
-	
-	
-	
-	
-	
-	
-	public String toString() {
-		String funcCom = "";
-		String cabecera = "";
-		
-		if(this.fpl != null) {
-			cabecera = "void" + " " + this.identifier + " "+ this.fpl + "\n";
-		}else {
-		    cabecera = "void" + " "+ this.identifier + " " + "( void )" + "\n";
-		}
-		funcCom += this.blq.getBegin() + "\n";
-		funcCom += concatVar();
-		funcCom += concatSent();
-		funcCom += this.blq.getEnd() + "\n";
-		
-		return cabecera + funcCom ;	
+	public String getConsts() {
+		return consts;
 	}
 
 
+
+
+
+
+	public void setConsts(String consts) {
+		this.consts = consts;
+	}
+
+
+	
 	
 
 }

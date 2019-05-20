@@ -11,30 +11,25 @@ var reVol, imVol: INTEGER; voltaje, impedancia, intensidad: REAL;
 	
 
 procedure CrearComplejo(re,im:INTEGER; c:REAL);
-begin
-	cparteRe:=re;
-	cparteImg:=im;
-end;
-
 function ParteReal(c:REAL):REAL;
 begin
 	ParteReal:=cparteRe;
 end;
 
+begin
+	cparteRe:=re;
+	cparteImg:=im;
+end;
+
+procedure SumarComplejos(c1, c2, c3:REAL);
 function ParteImaginaria(c:REAL):REAL;
 begin
 	ParteImaginaria:=cparteImg;
 end;
-
-procedure SumarComplejos(c1, c2, c3:REAL);
 begin
 	CrearComplejo(parteReal(c1)+parteReal(c2),parteImaginaria(c1)+parteImaginaria(c2), c3);
 end;
 
-procedure RestarComplejos(c1, c2:INTEGER; c3:REAL);
-begin
-	CrearComplejo(parteReal(c1)-parteReal(c2), parteImaginaria(c1)-parteImaginaria(c2), c3);
-end;
 
 procedure MultiplicarComplejos(c1, c2:INTEGER; c3: REAL);
 begin
@@ -44,16 +39,23 @@ begin
 end;
 
 procedure DividirComplejos(c1, c2:REAL; c3:INTEGER);
+procedure RestarComplejos(c1, c2:INTEGER; c3:REAL);
+begin
+	CrearComplejo(parteReal(c1)-parteReal(c2), parteImaginaria(c1)-parteImaginaria(c2), c3);
+end;
+
 begin
 	CrearComplejo(ParteReal(c1) * ParteReal(c2));
 end;
 
-procedure Conjugado(c1:INTEGER; c2:REAL);
+
+function Modulo(c:REAL):REAL;
+procedure Conjugado;
+var c1, C2: INTEGER;
 begin
 	CrearComplejo(ParteReal(c1), ParteImaginaria(c1), c2);
 end;
 
-function Modulo(c:REAL):REAL;
 begin
 	Modulo:=sqr(c)+sqr(c);
 end;

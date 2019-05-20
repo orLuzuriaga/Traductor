@@ -19,6 +19,7 @@ parser code {:
     public int tab = 0;
     public NoTerminal programa;
     public NoTerminal getProgram(){
+    
     return this.programa;
     }
     
@@ -140,8 +141,8 @@ non terminal String DEFCTE;
 non terminal List<String> CTELIST;
 non terminal String SIMPVALUE;
 
-non terminal String DEFVAR;
-non terminal String DEFVARLIST;
+non terminal NoTerminal DEFVAR;
+non terminal ArrayDeque<String> DEFVARLIST;
 non terminal ArrayDeque<String> VARLIST;
 
 non terminal NoTerminal DEFPROC;
@@ -420,14 +421,14 @@ SIMPVALUE ::= numeric_integer_const:i
 
 DEFVAR ::= var:v DEFVARLIST:dvl punto_y_coma:pyc
            {:
-              //System.out.println(dvl + pyc);
-              RESULT = dvl + pyc;
+             
+              RESULT = new DefVar(v,dvl,pyc);
             :}
             |var:v DEFVARLIST:dvl 
             {:
              parser.syntax_error("Symbol [;] spanning from ",dvlxleft, dvlxright);
              
-              RESULT = dvl + ";";
+              RESULT = new DefVar(v,dvl,";");
             :}
             ;
             
@@ -441,29 +442,51 @@ DEFVAR ::= var:v DEFVARLIST:dvl punto_y_coma:pyc
 
 DEFVARLIST ::= VARLIST:vl dospuntos:dp TBAS:tipo
                {:
+               
+               ArrayDeque<String> defVarList = new ArrayDeque<>();
                    String variables = "";
-                   for(String id: vl) {variables = tipo + " " + id + " " +  variables ;}
-                 RESULT = variables;
+                   for(String id: vl) 
+                     {
+                        variables = id + " " +  variables ;
+                        
+                      }
+                   
+                 defVarList.add(tipo + " "+variables);
+                 RESULT = defVarList;
                 :}
+                
+                
                 |DEFVARLIST:dvl punto_y_coma:pyc VARLIST:vl dospuntos:dp TBAS:tipo
                 {:
                 
                   ArrayDeque<String> aux = new ArrayDeque<>();
                   
-                  for(String id: vl) {aux.addFirst(tipo + " " + id + " " );}
+                  for(String id: vl) {
+                     aux.addFirst(id + " " );
                   
-                  dvl +="; "  ;
-                  for(String v: aux){ dvl =  dvl + v;}
+                  }
+                  
+                  aux2= tipo + " ";
+                  for(String v: aux){
+                         aux2 += v;
+                      }
+                      dvl.add(aux2);
                   RESULT = dvl;
                   
                  :} 
                 |VARLIST:vl TBAS:tipo
                 {:
                    parser.syntax_error("Symbol [:] spanning from ",vlxleft, vlxright);
+                   ArrayDeque<String> defVarList = new ArrayDeque<>();
                    String variables = "";
-                   for(String id: vl) {variables = tipo + " " + id + " "  + variables;}
-                  
-                  RESULT = variables;
+                   for(String id: vl) 
+                     {
+                        variables = id + " " +  variables ;
+                        
+                      }
+                   
+                 defVarList.add(variables);
+                 RESULT = defVarList;
                 :}
                 ;
 
@@ -504,15 +527,19 @@ VARLIST::= identifier:id
 DEFPROC ::= procedure:p identifier:id FORMAL_PARAMLIST:fpl punto_y_coma:pyc1 X BLQ:blq punto_y_coma:pyc2
             {:
                  
-            
+              
              DefProc proc = new DefProc(p,id,fpl,pyc1,blq,pyc2);
              String cabecera = "void" + " " + id + " "+ fpl + "\n";
              Blq b = (Blq)blq;
             
-             b.setTab(tab);
+             b.setContTab(tab);
+             cabecera += b.getBegin() + "\n";
              String cuerpo = b.toString();
-             this.tab -=2;
-             proc.setProCompleto(cabecera + cuerpo);
+             this.tab -=1;
+             cuerpo += b.getEnd()+"\n";
+             proc.setSubrrutinas(b.concatSub());
+             proc.setConsts(b.concatConst());
+             proc.setProCompleta(cabecera + cuerpo);
              RESULT = proc;
              
             :}
@@ -521,14 +548,18 @@ DEFPROC ::= procedure:p identifier:id FORMAL_PARAMLIST:fpl punto_y_coma:pyc1 X B
             |procedure:p identifier:id punto_y_coma:pyc1 X BLQ:blq punto_y_coma:pyc2
             
             {:
-             DefProc proc = new DefProc(p,id,pyc1,blq,pyc2);
+              DefProc proc = new DefProc(p,id,pyc1,blq,pyc2);
              String cabecera = "void" + " "+ id + " " + "( void )" + "\n";
              Blq b = (Blq)blq;
-           
-             b.setTab(tab);
+            
+             b.setContTab(tab);
+             cabecera += b.getBegin() + "\n";
              String cuerpo = b.toString();
-             this.tab -=2;
-             proc.setProCompleto(cabecera + cuerpo);
+             this.tab -=1;
+             cuerpo += b.getEnd()+"\n";
+             proc.setSubrrutinas(b.concatSub());
+             proc.setConsts(b.concatConst());
+             proc.setProCompleta(cabecera + cuerpo);
              RESULT = proc;
               
             :}
@@ -542,12 +573,16 @@ DEFPROC ::= procedure:p identifier:id FORMAL_PARAMLIST:fpl punto_y_coma:pyc1 X B
 DEFFUN ::=  function:f identifier:id  FORMAL_PARAMLIST:fpl dospuntos:dp TBAS:tipo punto_y_coma:pyc1 X BLQ:blq punto_y_coma:pyc2
             {:
             
-             DefFun fun = new DefFun(f,id,fpl,dp,tipo,pyc1,blq,pyc2);
+              DefFun fun = new DefFun(f,id,fpl,dp,tipo,pyc1,blq,pyc2);
              String cabecera = tipo + " " + id + " "+ fpl + "\n";
              Blq b = (Blq)blq;
-             b.setTab(tab);
+             b.setContTab(tab);
+             cabecera += b.getBegin() + "\n";
              String cuerpo = b.toString();
-             this.tab -=2;
+             this.tab -=1;
+             cuerpo += b.getEnd()+"\n";
+             fun.setSubrrutinas(b.concatSub());
+             fun.setConsts(b.concatConst());
              fun.setFunCompleta(cabecera + cuerpo);
              RESULT = fun;
                
@@ -555,15 +590,19 @@ DEFFUN ::=  function:f identifier:id  FORMAL_PARAMLIST:fpl dospuntos:dp TBAS:tip
             |function:f identifier:id dospuntos:dp TBAS:tipo punto_y_coma:pyc1 X BLQ:blq punto_y_coma:pyc2
             {:
         
-             DefFun fun = new DefFun(f,id,dp,tipo,pyc1,blq,pyc2);
+              DefFun fun = new DefFun(f,id,dp,tipo,pyc1,blq,pyc2);
              String cabecera = tipo + " "+ id + " " + "( void )" + "\n";
              Blq b = (Blq)blq;
-             b.setTab(tab);
+             b.setContTab(tab);
+             cabecera += b.getBegin() + "\n";
              String cuerpo = b.toString();
-             this.tab -=2;
-             
-              fun.setFunCompleta(cabecera + cuerpo);
+             this.tab -=1;
+             cuerpo += b.getEnd()+"\n";
+             fun.setSubrrutinas(b.concatSub());
+             fun.setConsts(b.concatConst());
+             fun.setFunCompleta(cabecera + cuerpo);
              RESULT = fun;
+             
              
             :}
              ;
@@ -576,7 +615,7 @@ DEFFUN ::=  function:f identifier:id  FORMAL_PARAMLIST:fpl dospuntos:dp TBAS:tip
 X::= {:
            Symbol s = (Symbol) stack.get(6);
            this.nombrefuncion = s.value.toString();
-           this.tab += 2;
+           this.tab += 1;
            RESULT = s.value.toString();
      :}
       ;
@@ -608,7 +647,7 @@ FORMAL_PARAM ::= VARLIST:vl dospuntos:dp TBAS:tipo
                 {:
                   String param = "";
                   
-                //[v3,v2,v1]
+                   //vl = {v3,v2,v1}
                   for(String id: vl) {
                 	    param = tipo + " " + id + " "  + param;
                   }
@@ -675,38 +714,89 @@ SENT ::= ASIG:asig punto_y_coma:pyc
           :}
           |word_if:wi EXPCOND:expCond word_then:wt BLQ:blq1 word_else:we BLQ:blq2
           {:
-             String sent_if = wi + "(" + expCond + ")" ;
+              String sent_if = wi + "(" + expCond + ")" + "\n" ;
               Blq b1 = (Blq)blq1;
-              this.tab +=2;
-              b1.setTab(tab);
-	              sent_if +="\n";
-	              sent_if += b1.toString();
-	          this.tab -=2;
+              this.tab += 1; 
+	          b1.setContTab(this.tab);
+	          sent_if += b1.tabulador(tab) +b1.getBegin() + "\n";
+	          //Concatenamos las sentencias
+	           for(String sent: b1.getSentlist()){
+		           sent_if += b1.tabulador(tab +1) + sent;
+		         }
+	          
+	          sent_if += b1.tabulador(tab)+ b1.getEnd() + "\n";
+	          this.tab -=1;
 		      Blq b2 = (Blq)blq2;
-		      this.tab +=2;
-	          b2.setTab(tab);
-	              sent_if +=  b2.tab(this.tab -1)+we + "\n";;
-	              sent_if += b2.toString();
-              this.tab -=2;
+		      this.tab +=1;
+		      b2.setContTab(this.tab);
+		      sent_if += b2.tabulador(tab) + we + b2.getBegin() + "\n";
+			      for(String sent: b2.getSentlist()){
+			           sent_if += b2.tabulador(tab +1) + sent;
+			         }
+	          
+	          sent_if += b2.tabulador(tab) + b2.getEnd() + "\n";
+              this.tab -=1;
              
            RESULT = sent_if;
           :}
           |word_while:ww EXPCOND:expCond word_do:wd BLQ:blq
           {:
-          // RESULT = new Sent(ww,expCond,wd,blq);
+	       String sent_while = ww + "(" + expCond + ")" + "\n";
+	       Blq b1 = (Blq)blq;
+	       this.tab +=1;
+	       b1.setContTab(tab);
+	       sent_while += b1.tabulador(tab) + b1.getBegin() + "\n";
+		       for(String sent: b1.getSentlist()){
+		           sent_while += b1.tabulador(tab +1) + sent;
+		         }
+	       sent_while += b1.tabulador(tab) + b1.getEnd() + "\n";
+	       this.tab -=1;
+	       
+           RESULT = sent_while;
           :}
           |word_repeat:wp BLQ:blq word_until:wu  EXPCOND:expCond punto_y_coma:pyc
           {:
-            //RESULT = new Sent(wp,blq,wu,expCond,pyc);
+           
+            String sent_do = "do";
+             Blq b1 = (Blq)blq;
+              sent_do += b1.getBegin() + "\n"; 
+              this.tab +=1;
+              b1.setContTab(tab);
+              for(String sent: b1.getSentlist()){
+		           sent_do += b1.tabulador(tab +1) + sent;
+		         }
+              sent_do +=b1.tabulador(tab)+ b1.getEnd() +  wu + "(" +expCond+ ")" + "\n";
+               this.tab -=1;
+              
+            RESULT = sent_do;
           :}
           |word_for:wf identifier:id asignacion:a EXP:exp1 INC:i EXP:exp2 word_do:wd BLQ:blq
           {:
-          // RESULT = new Sent(blq,wd,wf,a,id,exp1,i,exp2);
-          :}
-          |ASIG:asig 
-          {:
-             parser.syntax_error("Symbol  [;] spanning from ",asigxleft, asigxright);
-            // RESULT = new Sent(asig,";");
+                 String sent_for = wf + "(" +" cont = "+ exp1 + ";" +" cont ";
+             Inc inc = (Inc)i;
+             if(inc.getMayorMenor()!= null && (inc.getMayorMenor().equals("<"))){
+                sent_for += inc.getMayorMenor() + exp2 + inc.getDecInc() + ";" + " cont=cont" + inc.getDecInc() +")" + "\n";
+                Blq b1 = (Blq)blq;
+                this.tab +=1;
+                sent_for += b1.tabulador(tab) + b1.getBegin() + "\n";
+                for(String sent: b1.getSentlist()){
+ 		           sent_for += b1.tabulador(tab +1) + sent;
+ 		         }
+                sent_for += b1.tabulador(tab) + b1.getEnd() + "\n";
+                this.tab -=1;
+                
+             }else if(inc.getMayorMenor()!= null && (inc.getMayorMenor().equals(">"))){
+              sent_for += inc.getMayorMenor() + exp2 + inc.getDecInc() + ";" + "cont=cont" + inc.getDecInc() + ")" + "\n";
+                Blq b1 = (Blq)blq;
+                this.tab +=1;
+                sent_for += b1.tabulador(tab) + b1.getBegin() +"\n";
+                for(String sent: b1.getSentlist()){
+  		           sent_for += b1.tabulador(tab +1) + sent;
+  		         }
+                sent_for += b1.tabulador(tab)+b1.getEnd() +"\n";
+                this.tab -=1;
+             }
+          RESULT = sent_for;
           :}
           ;
 
@@ -788,6 +878,7 @@ EXP ::= EXP:exp1 OP:op EXP:exp2
           
            RESULT = f;
           :}
+       
           ;
 
 
@@ -920,7 +1011,7 @@ PROC_CALL ::= identifier:id SUBPPARAMLIST:spl
               :}
               |identifier:id
               {:
-               RESULT = id;
+               RESULT = id +"(" +")";
               :}
               ;
   

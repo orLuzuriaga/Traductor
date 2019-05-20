@@ -1,37 +1,31 @@
 (* programa de ejemplo 3 contiene:
- - variables
- - bloque principal de sentencias
- - Funciones y procedimientos
- - sentencias de control de flujo como if, while, repeat y for
+ - error falta punto y coma.
  *)
  
 PROGRAM prueba_3;
  
 const LIMITE = 1000;
-var maximo:INTEGER;
-
-function cuentaAtrasFor (maximo: INTEGER): INTEGER;
-begin
-  for contador := maximo downto 2 do
-    begin
-      escribe('Estoy por el numero');
-      escribe(contador);
-    end
-  cuentaAtrasFor := contador;
-end;
-
-function contardorFor(maximo: INTEGER): INTEGER;
+ 
+procedure contardorFor (maximo: INTEGER)
 begin
   for contador := 0 to maximo do
     begin
       escribe('Estoy por el numero');
       escribe(contador);
     end
-  contardorFor := contador;
 end;
 
-function contadorRepeat: INTEGER;
-var maximo:INTEGER;
+procedure contardorFor (maximo: INTEGER);
+begin
+  for contador := 0 to maximo do
+    begin
+      escribe('Estoy por el numero');
+      escribe(contador);
+    end
+end;
+
+procedure contadorRepeat(maximo: INTEGER);
+var contador:INTEGER;
 begin
   repeat
     begin
@@ -40,11 +34,10 @@ begin
         escribe(contador);
     end
   until contador <= maximo or contador = LIMITE;
-  contadorRepeat := contador;
 end;
 
 
-function contadorWhile(maximo: INTEGER): INTEGER;
+procedure contadorWhile(maximo: INTEGER);
 var contador:INTEGER;
 begin
   while contador <= maximo and  contador < LIMITE do
@@ -53,7 +46,6 @@ begin
     contador := contador + 1;
     escribe(contador);
   end
- contadorWhile := contador;
 end;
 
 
@@ -63,10 +55,9 @@ begin
   
   if maximo < LIMITE  then
   begin
-    escribe(contadorFor(maximo));
-    escribe(contadoRepeat(maximo));
-    escribe(contadoWhile(maximo));
-    escribe(cuentaAtrasFor(maximo));
+    contadorFor(maximo);
+    contadoRepeat(maximo);
+    contadoWhile(maximo);
   end
   else
   begin

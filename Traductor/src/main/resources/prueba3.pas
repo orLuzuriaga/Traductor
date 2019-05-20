@@ -10,26 +10,27 @@ PROGRAM prueba_3;
 const LIMITE = 1000;
 var maximo:INTEGER;
 
-procedure contardorFor (maximo: INTEGER);
+function cuentaAtrasFor (maximo: INTEGER): INTEGER;
+begin
+  for contador := maximo downto 2 do
+    begin
+      escribe('Estoy por el numero');
+      escribe(contador);
+    end
+  cuentaAtrasFor := contador;
+end;
+
+function contardorFor(maximo: INTEGER): INTEGER;
 begin
   for contador := 0 to maximo do
     begin
       escribe('Estoy por el numero');
       escribe(contador);
     end
+  contardorFor := contador;
 end;
 
-procedure contardorFor
-var maximo:INTEGER;
-begin
-  for contador := 0 to maximo do
-    begin
-      escribe('Estoy por el numero');
-      escribe(contador);
-    end
-end;
-
-function contadorRepeat: REAL;
+function contadorRepeat: INTEGER;
 var maximo:INTEGER;
 begin
   repeat
@@ -39,6 +40,7 @@ begin
         escribe(contador);
     end
   until contador <= maximo or contador = LIMITE;
+  contadorRepeat := contador;
 end;
 
 
@@ -61,9 +63,10 @@ begin
   
   if maximo < LIMITE  then
   begin
-    contadorFor(maximo);
-    contadoRepeat(maximo);
-    contadoWhile(maximo);
+    escribe(contadorFor(maximo));
+    escribe(contadoRepeat(maximo));
+    escribe(contadoWhile(maximo));
+    escribe(cuentaAtrasFor(maximo));
   end
   else
   begin
