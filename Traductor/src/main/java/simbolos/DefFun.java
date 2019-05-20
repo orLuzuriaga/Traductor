@@ -80,7 +80,7 @@ public class DefFun extends NoTerminal{
 				if(blq.getDclList() !=null) {
 					 for(Dcl dcl: blq.getDclList()){
 			               if ((dcl.getTipoDcl() == 'v') && (dcl.getDefVar()!= null) ){
-			                   vars+= dcl.getDefVar()  + "\n";;
+			                   vars+= "  "+ dcl.getDefVar()  + "\n";
 			               }
 			          }	
 					
@@ -101,7 +101,7 @@ public class DefFun extends NoTerminal{
 		String sents = "";
 		if(this.blq.getSentlist()!= null)
 		  for(String sent: this.blq.getSentlist()){
-              sents += sent;
+              sents += "  "+ sent;
              }
 		return sents;
 		
@@ -126,4 +126,9 @@ public class DefFun extends NoTerminal{
 		return cabecera + funcCom ;	
 	}
 
+	
+	
+	
+	
+	
 }

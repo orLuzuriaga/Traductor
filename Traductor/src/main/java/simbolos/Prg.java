@@ -20,7 +20,9 @@ public class Prg extends NoTerminal{
 	private String unit = "";
 	private ArrayDeque<Dcl> dclList;
 	
-	
+	private String funcs = "";
+	private String procs = "";
+	private String consts = "";
 	
 
 	//"program" identifier ";" BLQ "."
@@ -61,10 +63,10 @@ private String cuerpoPrg() {
 		if(blq.getDclList() != null) {
 		  for(Dcl dcl: blq.getDclList()){
                if((dcl.getTipoDcl() == 'f') && (dcl.getDefFun() != null) ){
-                  cuerpo += dcl.getDefFun().toString() + "\n";;
+                  cuerpo += dcl.getDefFun().getFunCompleta() + "\n";;
                   
                }else if ((dcl.getTipoDcl() == 'p') &&  (dcl.getDefProc() != null) ){
-                  cuerpo += dcl.getDefProc().toString() + "\n";
+                  cuerpo += dcl.getDefProc().getProCompleto() + "\n";
                
                }else if ((dcl.getTipoDcl() == 'c') && (dcl.getDefCte()!= null)){
                  consts= dcl.getDefCte() + consts ;
@@ -92,10 +94,10 @@ private String cuerpoUnit() {
 		if(this.dclList != null) {
 			 for(Dcl dcl: this.dclList){
 	               if((dcl.getTipoDcl() == 'f') && (dcl.getDefFun() != null) ){
-	                  cuerpo += dcl.getDefFun().toString() + "\n";;
+	                  cuerpo += dcl.getDefFun().getFunCompleta() + "\n";;
 	                  
 	               }else if ((dcl.getTipoDcl() == 'p') &&  (dcl.getDefProc() != null) ){
-	                  cuerpo += dcl.getDefProc().toString() + "\n";
+	                  cuerpo += dcl.getDefProc().getProCompleto() + "\n";
 	               
 	               }else if ((dcl.getTipoDcl() == 'c') && (dcl.getDefCte()!= null)){
 	                 consts= dcl.getDefCte() + consts ;
@@ -119,9 +121,7 @@ private String cuerpoUnit() {
 	
 	
 	
-	
-	
-	
+
 private String funMain() {
 	String funMain = "void " + "main (void)" +"\n";
 	String vars = "";

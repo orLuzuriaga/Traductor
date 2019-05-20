@@ -12,9 +12,8 @@ public class DefProc extends NoTerminal{
 	private String fpl;
 	private String pyc1;
 	private String pyc2;
-	
-	
-	private String proCompleta;
+	private String proCompleto;
+    
 	
 	
 	/*
@@ -53,8 +52,21 @@ public class DefProc extends NoTerminal{
 
 
 
-	public String getProCompleta() {
-		return proCompleta;
+
+
+
+
+
+
+
+	
+
+	
+	
+	
+	
+	public String getProCompleto() {
+		return proCompleto;
 	}
 
 
@@ -63,14 +75,14 @@ public class DefProc extends NoTerminal{
 
 
 	public void setProCompleto(String proCompleto) {
-		this.proCompleta = proCompleto;
+		this.proCompleto = proCompleto;
 	}
 
 
-	
-	
-	
-	
+
+
+
+
 	private String concatVar() {
 			String vars = "";
 			try {
@@ -78,13 +90,10 @@ public class DefProc extends NoTerminal{
 				if(blq.getDclList() !=null) {
 					 for(Dcl dcl: blq.getDclList()){
 			               if ((dcl.getTipoDcl() == 'v') && (dcl.getDefVar()!= null) ){
-			                   vars+= dcl.getDefVar()  + "\n";;
+			                   vars+= "  "+ dcl.getDefVar()  + "\n";
 			               }
 			          }	
-					
 				}
-				 
-				 
 			} catch (Exception e) {
 				System.err.println(e.getMessage());
 			}
@@ -95,16 +104,26 @@ public class DefProc extends NoTerminal{
 	
 	
 	
+	
+	
 	private String concatSent() {
 		String sents = "";
 		if(this.blq.getSentlist()!= null)
 		  for(String sent: this.blq.getSentlist()){
-              sents += sent;
+              sents += "  "+  sent;
              }
 		return sents;
 		
 		
 	}
+	
+	
+
+	
+	
+	
+	
+	
 	
 	
 	public String toString() {

@@ -51,8 +51,8 @@ public class AnalizadorSintactico extends java_cup.runtime.lr_parser {
     "\002\010\006\000\002\011\003\000\002\011\003\000\002" +
     "\011\003\000\002\012\005\000\002\012\004\000\002\013" +
     "\005\000\002\013\007\000\002\013\004\000\002\014\003" +
-    "\000\002\014\005\000\002\014\004\000\002\015\010\000" +
-    "\002\015\007\000\002\016\013\000\002\016\012\000\002" +
+    "\000\002\014\005\000\002\014\004\000\002\015\011\000" +
+    "\002\015\010\000\002\016\013\000\002\016\012\000\002" +
     "\041\002\000\002\017\005\000\002\020\005\000\002\020" +
     "\007\000\002\021\003\000\002\021\003\000\002\022\004" +
     "\000\002\022\004\000\002\022\010\000\002\022\006\000" +
@@ -75,10 +75,10 @@ public class AnalizadorSintactico extends java_cup.runtime.lr_parser {
   /** Parse-action table. */
   protected static final short[][] _action_table = 
     unpackFromStrings(new String[] {
-    "\000\256\000\006\023\004\032\006\001\002\000\004\054" +
-    "\253\001\002\000\004\002\252\001\002\000\004\054\007" +
+    "\000\260\000\006\023\004\032\006\001\002\000\004\054" +
+    "\255\001\002\000\004\002\254\001\002\000\004\054\007" +
     "\001\002\000\014\014\016\022\010\026\022\027\011\030" +
-    "\014\001\002\000\004\054\235\001\002\000\004\054\225" +
+    "\014\001\002\000\004\054\237\001\002\000\004\054\225" +
     "\001\002\000\016\015\ufff8\022\ufff8\024\ufff8\026\ufff8\027" +
     "\ufff8\030\ufff8\001\002\000\014\015\224\022\010\026\022" +
     "\027\011\030\014\001\002\000\004\054\045\001\002\000" +
@@ -264,32 +264,34 @@ public class AnalizadorSintactico extends java_cup.runtime.lr_parser {
     "\030\014\001\002\000\004\014\223\001\002\000\016\015" +
     "\uffdc\022\uffdc\024\uffdc\026\uffdc\027\uffdc\030\uffdc\001\002" +
     "\000\004\002\ufffd\001\002\000\006\011\050\014\226\001" +
-    "\002\000\014\022\010\024\064\026\022\027\011\030\014" +
-    "\001\002\000\004\014\230\001\002\000\014\022\010\024" +
-    "\064\026\022\027\011\030\014\001\002\000\004\014\232" +
-    "\001\002\000\016\015\uffdf\022\uffdf\024\uffdf\026\uffdf\027" +
-    "\uffdf\030\uffdf\001\002\000\004\014\234\001\002\000\016" +
-    "\015\uffde\022\uffde\024\uffde\026\uffde\027\uffde\030\uffde\001" +
-    "\002\000\012\033\245\055\114\056\106\057\105\001\002" +
-    "\000\020\015\ufff1\022\ufff1\024\ufff1\026\ufff1\027\ufff1\030" +
-    "\ufff1\054\237\001\002\000\012\033\240\055\114\056\106" +
-    "\057\105\001\002\000\010\055\114\056\106\057\105\001" +
-    "\002\000\004\014\242\001\002\000\020\015\uffeb\022\uffeb" +
-    "\024\uffeb\026\uffeb\027\uffeb\030\uffeb\054\uffeb\001\002\000" +
-    "\022\014\244\015\uffed\022\uffed\024\uffed\026\uffed\027\uffed" +
-    "\030\uffed\054\uffed\001\002\000\020\015\uffef\022\uffef\024" +
-    "\uffef\026\uffef\027\uffef\030\uffef\054\uffef\001\002\000\010" +
-    "\055\114\056\106\057\105\001\002\000\004\014\247\001" +
-    "\002\000\020\015\uffec\022\uffec\024\uffec\026\uffec\027\uffec" +
-    "\030\uffec\054\uffec\001\002\000\022\014\251\015\uffee\022" +
-    "\uffee\024\uffee\026\uffee\027\uffee\030\uffee\054\uffee\001\002" +
-    "\000\020\015\ufff0\022\ufff0\024\ufff0\026\ufff0\027\ufff0\030" +
-    "\ufff0\054\ufff0\001\002\000\004\002\000\001\002\000\016" +
-    "\014\255\022\010\024\064\026\022\027\011\030\014\001" +
-    "\002\000\004\015\260\001\002\000\014\022\010\024\064" +
-    "\026\022\027\011\030\014\001\002\000\004\015\257\001" +
-    "\002\000\004\002\001\001\002\000\004\002\ufffe\001\002" +
-    "" });
+    "\002\000\014\022\uffdb\024\uffdb\026\uffdb\027\uffdb\030\uffdb" +
+    "\001\002\000\004\014\230\001\002\000\014\022\uffdb\024" +
+    "\uffdb\026\uffdb\027\uffdb\030\uffdb\001\002\000\014\022\010" +
+    "\024\064\026\022\027\011\030\014\001\002\000\004\014" +
+    "\233\001\002\000\016\015\uffdf\022\uffdf\024\uffdf\026\uffdf" +
+    "\027\uffdf\030\uffdf\001\002\000\014\022\010\024\064\026" +
+    "\022\027\011\030\014\001\002\000\004\014\236\001\002" +
+    "\000\016\015\uffde\022\uffde\024\uffde\026\uffde\027\uffde\030" +
+    "\uffde\001\002\000\012\033\247\055\114\056\106\057\105" +
+    "\001\002\000\020\015\ufff1\022\ufff1\024\ufff1\026\ufff1\027" +
+    "\ufff1\030\ufff1\054\241\001\002\000\012\033\242\055\114" +
+    "\056\106\057\105\001\002\000\010\055\114\056\106\057" +
+    "\105\001\002\000\004\014\244\001\002\000\020\015\uffeb" +
+    "\022\uffeb\024\uffeb\026\uffeb\027\uffeb\030\uffeb\054\uffeb\001" +
+    "\002\000\022\014\246\015\uffed\022\uffed\024\uffed\026\uffed" +
+    "\027\uffed\030\uffed\054\uffed\001\002\000\020\015\uffef\022" +
+    "\uffef\024\uffef\026\uffef\027\uffef\030\uffef\054\uffef\001\002" +
+    "\000\010\055\114\056\106\057\105\001\002\000\004\014" +
+    "\251\001\002\000\020\015\uffec\022\uffec\024\uffec\026\uffec" +
+    "\027\uffec\030\uffec\054\uffec\001\002\000\022\014\253\015" +
+    "\uffee\022\uffee\024\uffee\026\uffee\027\uffee\030\uffee\054\uffee" +
+    "\001\002\000\020\015\ufff0\022\ufff0\024\ufff0\026\ufff0\027" +
+    "\ufff0\030\ufff0\054\ufff0\001\002\000\004\002\000\001\002" +
+    "\000\016\014\257\022\010\024\064\026\022\027\011\030" +
+    "\014\001\002\000\004\015\262\001\002\000\014\022\010" +
+    "\024\064\026\022\027\011\030\014\001\002\000\004\015" +
+    "\261\001\002\000\004\002\001\001\002\000\004\002\ufffe" +
+    "\001\002" });
 
   /** Access to parse-action table. */
   public short[][] action_table() {return _action_table;}
@@ -297,10 +299,10 @@ public class AnalizadorSintactico extends java_cup.runtime.lr_parser {
   /** <code>reduce_goto</code> table. */
   protected static final short[][] _reduce_table = 
     unpackFromStrings(new String[] {
-    "\000\256\000\004\002\004\001\001\000\002\001\001\000" +
+    "\000\260\000\004\002\004\001\001\000\002\001\001\000" +
     "\002\001\001\000\002\001\001\000\016\004\012\006\011" +
     "\007\017\012\020\015\014\016\016\001\001\000\004\010" +
-    "\235\001\001\000\002\001\001\000\002\001\001\000\014" +
+    "\237\001\001\000\002\001\001\000\002\001\001\000\014" +
     "\006\042\007\017\012\020\015\014\016\016\001\001\000" +
     "\002\001\001\000\002\001\001\000\016\004\041\006\011" +
     "\007\017\012\020\015\014\016\016\001\001\000\002\001" +
@@ -373,20 +375,21 @@ public class AnalizadorSintactico extends java_cup.runtime.lr_parser {
     "\001\000\002\001\001\000\004\041\220\001\001\000\020" +
     "\003\221\004\065\006\011\007\017\012\020\015\014\016" +
     "\016\001\001\000\002\001\001\000\002\001\001\000\002" +
-    "\001\001\000\004\017\226\001\001\000\020\003\232\004" +
-    "\065\006\011\007\017\012\020\015\014\016\016\001\001" +
-    "\000\002\001\001\000\020\003\230\004\065\006\011\007" +
-    "\017\012\020\015\014\016\016\001\001\000\002\001\001" +
-    "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
-    "\004\011\245\001\001\000\002\001\001\000\004\011\240" +
-    "\001\001\000\004\011\242\001\001\000\002\001\001\000" +
-    "\002\001\001\000\002\001\001\000\002\001\001\000\004" +
-    "\011\247\001\001\000\002\001\001\000\002\001\001\000" +
-    "\002\001\001\000\002\001\001\000\002\001\001\000\020" +
-    "\003\253\004\065\006\011\007\017\012\020\015\014\016" +
-    "\016\001\001\000\002\001\001\000\020\003\255\004\065" +
-    "\006\011\007\017\012\020\015\014\016\016\001\001\000" +
-    "\002\001\001\000\002\001\001\000\002\001\001" });
+    "\001\001\000\004\017\226\001\001\000\004\041\233\001" +
+    "\001\000\002\001\001\000\004\041\230\001\001\000\020" +
+    "\003\231\004\065\006\011\007\017\012\020\015\014\016" +
+    "\016\001\001\000\002\001\001\000\002\001\001\000\020" +
+    "\003\234\004\065\006\011\007\017\012\020\015\014\016" +
+    "\016\001\001\000\002\001\001\000\002\001\001\000\004" +
+    "\011\247\001\001\000\002\001\001\000\004\011\242\001" +
+    "\001\000\004\011\244\001\001\000\002\001\001\000\002" +
+    "\001\001\000\002\001\001\000\002\001\001\000\004\011" +
+    "\251\001\001\000\002\001\001\000\002\001\001\000\002" +
+    "\001\001\000\002\001\001\000\002\001\001\000\020\003" +
+    "\255\004\065\006\011\007\017\012\020\015\014\016\016" +
+    "\001\001\000\002\001\001\000\020\003\257\004\065\006" +
+    "\011\007\017\012\020\015\014\016\016\001\001\000\002" +
+    "\001\001\000\002\001\001\000\002\001\001" });
 
   /** Access to <code>reduce_goto</code> table. */
   public short[][] reduce_table() {return _reduce_table;}
@@ -426,7 +429,7 @@ public class AnalizadorSintactico extends java_cup.runtime.lr_parser {
 
 
     
-    
+    public int tab = 0;
     public NoTerminal programa;
     public NoTerminal getProgram(){
     return this.programa;
@@ -458,6 +461,8 @@ public class AnalizadorSintactico extends java_cup.runtime.lr_parser {
 	    System.err.print(msj);
 	  
 	    }
+	    
+
 
 
 /** Cup generated class to encapsulate user supplied action code.*/
@@ -465,6 +470,7 @@ public class AnalizadorSintactico extends java_cup.runtime.lr_parser {
 class CUP$AnalizadorSintactico$actions {
   private final AnalizadorSintactico parser;
 private String nombrefuncion;
+private int tab;
 
   /** Constructor */
   CUP$AnalizadorSintactico$actions(AnalizadorSintactico parser) {
@@ -1205,21 +1211,21 @@ private String nombrefuncion;
           return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 34: // DEFPROC ::= procedure identifier FORMAL_PARAMLIST punto_y_coma BLQ punto_y_coma 
+          case 34: // DEFPROC ::= procedure identifier FORMAL_PARAMLIST punto_y_coma X BLQ punto_y_coma 
             {
               NoTerminal RESULT =null;
-		Location pxleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-5)).xleft;
-		Location pxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-5)).xright;
-		String p = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-5)).value;
-		Location idxleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-4)).xleft;
-		Location idxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-4)).xright;
-		String id = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-4)).value;
-		Location fplxleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-3)).xleft;
-		Location fplxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-3)).xright;
-		String fpl = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-3)).value;
-		Location pyc1xleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-2)).xleft;
-		Location pyc1xright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-2)).xright;
-		String pyc1 = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-2)).value;
+		Location pxleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-6)).xleft;
+		Location pxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-6)).xright;
+		String p = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-6)).value;
+		Location idxleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-5)).xleft;
+		Location idxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-5)).xright;
+		String id = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-5)).value;
+		Location fplxleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-4)).xleft;
+		Location fplxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-4)).xright;
+		String fpl = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-4)).value;
+		Location pyc1xleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-3)).xleft;
+		Location pyc1xright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-3)).xright;
+		String pyc1 = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-3)).value;
 		Location blqxleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-1)).xleft;
 		Location blqxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-1)).xright;
 		NoTerminal blq = (NoTerminal)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-1)).value;
@@ -1230,26 +1236,33 @@ private String nombrefuncion;
                  
             
              DefProc proc = new DefProc(p,id,fpl,pyc1,blq,pyc2);
+             String cabecera = "void" + " " + id + " "+ fpl + "\n";
+             Blq b = (Blq)blq;
+            
+             b.setTab(tab);
+             String cuerpo = b.toString();
+             this.tab -=2;
+             proc.setProCompleto(cabecera + cuerpo);
              RESULT = proc;
              
             
-              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("DEFPROC",11, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-5)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("DEFPROC",11, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-6)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
           return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 35: // DEFPROC ::= procedure identifier punto_y_coma BLQ punto_y_coma 
+          case 35: // DEFPROC ::= procedure identifier punto_y_coma X BLQ punto_y_coma 
             {
               NoTerminal RESULT =null;
-		Location pxleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-4)).xleft;
-		Location pxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-4)).xright;
-		String p = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-4)).value;
-		Location idxleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-3)).xleft;
-		Location idxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-3)).xright;
-		String id = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-3)).value;
-		Location pyc1xleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-2)).xleft;
-		Location pyc1xright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-2)).xright;
-		String pyc1 = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-2)).value;
+		Location pxleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-5)).xleft;
+		Location pxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-5)).xright;
+		String p = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-5)).value;
+		Location idxleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-4)).xleft;
+		Location idxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-4)).xright;
+		String id = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-4)).value;
+		Location pyc1xleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-3)).xleft;
+		Location pyc1xright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-3)).xright;
+		String pyc1 = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-3)).value;
 		Location blqxleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-1)).xleft;
 		Location blqxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-1)).xright;
 		NoTerminal blq = (NoTerminal)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-1)).value;
@@ -1258,10 +1271,17 @@ private String nombrefuncion;
 		String pyc2 = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.peek()).value;
 		
              DefProc proc = new DefProc(p,id,pyc1,blq,pyc2);
+             String cabecera = "void" + " "+ id + " " + "( void )" + "\n";
+             Blq b = (Blq)blq;
+           
+             b.setTab(tab);
+             String cuerpo = b.toString();
+             this.tab -=2;
+             proc.setProCompleto(cabecera + cuerpo);
              RESULT = proc;
               
             
-              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("DEFPROC",11, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-4)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("DEFPROC",11, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-5)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
           return CUP$AnalizadorSintactico$result;
 
@@ -1294,9 +1314,14 @@ private String nombrefuncion;
 		Location pyc2xright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$AnalizadorSintactico$stack.peek()).xright;
 		String pyc2 = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.peek()).value;
 		
-             
             
              DefFun fun = new DefFun(f,id,fpl,dp,tipo,pyc1,blq,pyc2);
+             String cabecera = tipo + " " + id + " "+ fpl + "\n";
+             Blq b = (Blq)blq;
+             b.setTab(tab);
+             String cuerpo = b.toString();
+             this.tab -=2;
+             fun.setFunCompleta(cabecera + cuerpo);
              RESULT = fun;
                
             
@@ -1330,8 +1355,15 @@ private String nombrefuncion;
 		Location pyc2xright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$AnalizadorSintactico$stack.peek()).xright;
 		String pyc2 = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.peek()).value;
 		
-            
+        
              DefFun fun = new DefFun(f,id,dp,tipo,pyc1,blq,pyc2);
+             String cabecera = tipo + " "+ id + " " + "( void )" + "\n";
+             Blq b = (Blq)blq;
+             b.setTab(tab);
+             String cuerpo = b.toString();
+             this.tab -=2;
+             
+              fun.setFunCompleta(cabecera + cuerpo);
              RESULT = fun;
              
             
@@ -1346,6 +1378,7 @@ private String nombrefuncion;
 		
            Symbol s = (Symbol) stack.get(6);
            this.nombrefuncion = s.value.toString();
+           this.tab += 2;
            RESULT = s.value.toString();
      
               CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("X",31, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
@@ -1478,8 +1511,7 @@ private String nombrefuncion;
 		Location pycxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$AnalizadorSintactico$stack.peek()).xright;
 		String pyc = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.peek()).value;
 		
-            
-            //RESULT = new Sent(pyc,asig);
+          
             RESULT = asig + pyc + "\n";
           
               CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("SENT",16, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-1)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
@@ -1498,7 +1530,7 @@ private String nombrefuncion;
 		String pyc = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.peek()).value;
 		
              RESULT = proc_call + pyc + "\n";
-            //RESULT = new Sent(pyc, proc_call);
+            
           
               CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("SENT",16, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-1)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
@@ -1527,7 +1559,21 @@ private String nombrefuncion;
 		Location blq2xright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$AnalizadorSintactico$stack.peek()).xright;
 		NoTerminal blq2 = (NoTerminal)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.peek()).value;
 		
-           //RESULT = new Sent(wi,expCond,wt,blq1,we,blq2);
+             String sent_if = wi + "(" + expCond + ")" ;
+              Blq b1 = (Blq)blq1;
+              this.tab +=2;
+              b1.setTab(tab);
+	              sent_if +="\n";
+	              sent_if += b1.toString();
+	          this.tab -=2;
+		      Blq b2 = (Blq)blq2;
+		      this.tab +=2;
+	          b2.setTab(tab);
+	              sent_if +=  b2.tab(this.tab -1)+we + "\n";;
+	              sent_if += b2.toString();
+              this.tab -=2;
+             
+           RESULT = sent_if;
           
               CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("SENT",16, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-5)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
@@ -1640,7 +1686,8 @@ private String nombrefuncion;
 		Location wtxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$AnalizadorSintactico$stack.peek()).xright;
 		String wt = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.peek()).value;
 		
-          RESULT = new Inc(wt);
+          
+          RESULT = new Inc("+1","<");
        
               CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("INC",30, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
@@ -1654,7 +1701,7 @@ private String nombrefuncion;
 		Location wdowntoxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$AnalizadorSintactico$stack.peek()).xright;
 		String wdownto = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.peek()).value;
 		
-        RESULT = new Inc(wdownto);
+        RESULT = new Inc("-1",">");
        
               CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("INC",30, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
