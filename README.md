@@ -55,7 +55,7 @@ especificación léxica debemos tener en cuenta:
 >Para el analizador sintáctico hemos utilizado la herramienta CUP, la cual permite generar la implementación del
 > analizador a partir de la especificación sintáctica y el analizador léxico del apartado anterior.
 >
-><img src="https://github.com/orluzuriaga/Traductor/blob/master/Imagenes/Esquema%20analizador%20sintactico.png" width="500" height="300">
+><img src="https://github.com/orluzuriaga/Traductor/blob/master/Imagenes/Esquema%20analizador%20sintactico.png" width="600" height="300">
 >
 ### Traducción dirigida por la sintaxis
 > Para completar el traductor y generar el archivo .c hemos seguido usando la herramienta CUP, la cual nos permite describir
