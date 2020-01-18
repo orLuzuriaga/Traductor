@@ -82,6 +82,8 @@ especificación léxica debemos tener en cuenta:
 >A la hora de realizar la evaluación del traductor se realizaría invocando la aplicación desde el entormo Eclipse y pasando
 >como argumentos la ruta: P.ej. src main resources /prueba2.pas. En el caso de éxito se visualizaría el menú y se debe pulsar la opción > 1.
 >
+><img src="https://github.com/orluzuriaga/Traductor/blob/master/Imagenes/Casos%20de%20uso.png" width="880" height="450">
+>
 >A continuación la descripción de cada uno de los diferentes casos de prueba:
 >>
 >>- prueba1.pas. Comentarios multilínea: definición de constantes, variables y bloque principal de sentencias.
@@ -99,6 +101,4 @@ especificación léxica debemos tener en cuenta:
 >>
 >>- Prueba4_error.pas. El analizador detecta error de comentario.
 >
->### Imagenes del programa en ejecución
-><img src="https://github.com/orluzuriaga/Traductor/blob/master/Imagenes/Casos%20de%20uso.png" width="850" height="400">
->
+
