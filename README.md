@@ -62,6 +62,8 @@ especificación léxica debemos tener en cuenta:
 > Para completar el traductor y generar el archivo .c hemos seguido usando la herramienta CUP, la cual nos permite describir
 >acciones semánticas en lenguaje java con la siguiente sintaxis:
 >
+><img src="https://github.com/orluzuriaga/Traductor/blob/master/Imagenes/Traduccion_dirigida_sintaxis.png" width="650" height="300">
+>
 >*ANTECEDENTE ::= CONSECUENTE1 | … | CONSECUENTE N {: acciones semánticas:};
 >
 >En esta etapa de la práctica nos hemos apoyado en atributos sintetizados. Por lo que las acciones semánticas se encuentran
