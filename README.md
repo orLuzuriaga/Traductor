@@ -49,8 +49,9 @@ especificación léxica debemos tener en cuenta:
 >#### Relas léxicas
 >Estas identificaran los distintos elementos que compones el programa fuente, podemos ver un ejemplo donde se identificas las palabras
 >reservadas propias del lenguaje fuente.
-
-
+>
+><img src="https://github.com/orluzuriaga/Traductor/blob/master/Imagenes/Reglas%20lexicas.png" width="600" height="300">
+>
 ### Analizador Sintáctico
 >Para el analizador sintáctico hemos utilizado la herramienta CUP, la cual permite generar la implementación del
 > analizador a partir de la especificación sintáctica y el analizador léxico del apartado anterior.
