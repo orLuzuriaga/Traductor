@@ -73,7 +73,11 @@ especificación léxica debemos tener en cuenta:
 >
 >Siguiendo la teoría para trabajar con CUP creamos una variable auxiliar y su valor lo obtenemos del del valor que se
 >encuentra en la cima de la pila.
-
+>
+### Árbol de analisis
+>
+><img src="https://github.com/orluzuriaga/Traductor/blob/master/Imagenes/Esquema_arbol.png" width="650" height="400">
+>
 ### Como ejecutar el programa
 >A la hora de realizar la evaluación del traductor se realizaría invocando la aplicación desde el entormo Eclipse y pasando
 >como argumentos la ruta: P.ej. src main resources /prueba2.pas. En el caso de éxito se visualizaría el menú y se debe pulsar la opción > 1.
