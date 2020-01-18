@@ -44,7 +44,7 @@ especificación léxica debemos tener en cuenta:
 >“(*” para comentarios multilínea.
 >llamamos a los correspondientes estados, COMENTARIO_LINEA, COMENTARIO_MULTILINEA.
 >
->
+><img src="https://github.com/orluzuriaga/Traductor/blob/master/Imagenes/Comentario%20de%20L%C3%ADnea.png" width="600" height="300">
 >
 >#### Relas léxicas
 >Estas identificaran los distintos elementos que compones el programa fuente, podemos ver un ejemplo donde se identificas las palabras
