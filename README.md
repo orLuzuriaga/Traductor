@@ -98,5 +98,7 @@ especificación léxica debemos tener en cuenta:
 >>- prueba4.pas. El analizador reconoce la librería UNIT y sentencias anidadas.
 >>
 >>- Prueba4_error.pas. El analizador detecta error de comentario.
-
-
+>
+>
+><img src="https://github.com/orluzuriaga/Traductor/blob/master/Imagenes/Casos%20de%20uso.png" width="650" height="400">
+>
