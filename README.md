@@ -50,7 +50,7 @@ especificación léxica debemos tener en cuenta:
 >Estas identificaran los distintos elementos que compones el programa fuente, podemos ver un ejemplo donde se identificas las palabras
 >reservadas propias del lenguaje fuente.
 >
-><img src="https://github.com/orluzuriaga/Traductor/blob/master/Imagenes/Reglas%20lexicas.png" width="600" height="300">
+><img src="https://github.com/orluzuriaga/Traductor/blob/master/Imagenes/Reglas%20lexicas.png" width="650" height="300">
 >
 ### Analizador Sintáctico
 >Para el analizador sintáctico hemos utilizado la herramienta CUP, la cual permite generar la implementación del
@@ -76,7 +76,7 @@ especificación léxica debemos tener en cuenta:
 >
 ### Árbol de analisis
 >
-><img src="https://github.com/orluzuriaga/Traductor/blob/master/Imagenes/Esquema_arbol.png" width="650" height="400">
+><img src="https://github.com/orluzuriaga/Traductor/blob/master/Imagenes/Esquema_arbol.png" width="850" height="400">
 >
 ### Como ejecutar el programa
 >A la hora de realizar la evaluación del traductor se realizaría invocando la aplicación desde el entormo Eclipse y pasando
@@ -99,6 +99,6 @@ especificación léxica debemos tener en cuenta:
 >>
 >>- Prueba4_error.pas. El analizador detecta error de comentario.
 >
->
+>### Imagenes del programa en ejecución
 ><img src="https://github.com/orluzuriaga/Traductor/blob/master/Imagenes/Casos%20de%20uso.png" width="850" height="400">
 >
