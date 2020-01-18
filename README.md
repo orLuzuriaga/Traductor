@@ -64,7 +64,7 @@ especificación léxica debemos tener en cuenta:
 
 ### Como ejecutar el programa
 >A la hora de realizar la evaluación del traductor se realizaría invocando la aplicación desde el entormo Eclipse y pasando
->como argumentos la ruta: P.ej. src main resources /prueba2.pas. En el caso de éxito se visualizaría el menú y se debe pulsar la opción >1.
+>como argumentos la ruta: P.ej. src main resources /prueba2.pas. En el caso de éxito se visualizaría el menú y se debe pulsar la opción > 1.
 >
 >A continuación la descripción de cada uno de los diferentes casos de prueba:
 >>
