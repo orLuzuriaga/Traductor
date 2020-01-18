@@ -25,3 +25,13 @@ especificación léxica debemos tener en cuenta:
 >compuestas por letras, dígitos y guiones bajos, donde obligatoriamente empieza.
 >
 > * Identifier = [a-zA-Z][0-9A-Za-z_]*
+> #### Constantes numéricas enteras y reales
+>Traductor reconoce constantes de dos tipos entera y reales, donde las entera puede ir precedida por un signo [+|
+>[+|--] y la reales se pueden expresar en tipos distintos, Punto fijo, Exponencial, Mixto. Para identificarlas se ha utilizado las >siguientes definiciones::
+>*Entera = integer_const = [+|-]?[:digit:]+
+>*Real = real_const = {PuntoFijo } | {Exponecial } | {Mixto}
+>> Base PuntoFijo = digit digit :]+
+
+Base Exponecial digit e"|"E digit :]+
+
+Base Mixta = PuntoFijo e"|"E digit :]+
