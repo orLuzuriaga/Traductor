@@ -20,21 +20,35 @@
 enunciado y los tokens que el analizador no reconoce a excepción del salto línea y el retorno de carro. Para empezar la
 especificación léxica debemos tener en cuenta:
 
-#### Identificadores:
+>#### Identificadores:
 >Para representar los identificadores se ha utilizado la siguiente definición léxica esta define todas las ristras de símbolos
 >compuestas por letras, dígitos y guiones bajos, donde obligatoriamente empieza.
 >
 > * Identifier = [a-zA-Z][0-9A-Za-z_]*
 
-#### Constantes numéricas enteras y reales
+>#### Constantes numéricas enteras y reales
 >Traductor reconoce constantes de dos tipos entera y reales, donde las entera puede ir precedida por un signo [+| [+|--] 
 >las reales se pueden expresar en tipos distintos, Punto fijo, Exponencial, Mixto. Para identificarlas se ha utilizado las >siguientes >definiciones::
 
-#### Constantes literales
+>#### Constantes literales
 > Las constantes literales son del tipo 'contenido de la constante literal’ dado que puede contener comillas dentro, nos hemos apoyado >en >un estado, que nos permite realizar un análisis independiente una vez detectada la primera comilla, “ ‘ “ , para ello una vez
 > detectada la comilla iniciamos el estado llamado
 >“CONT_LITERALES"
-#### Comentarios de línea y multilínea
+>#### Comentarios de línea y multilínea
 >Similar a la misma técnica empleada con las constantes literales, aqui empleamos estados que permitirá identificar los comentarios >completos para luego obviarlos, para ello una vez detectada el primer símbolo “{“ para comentarios de línea
 >“(*” para comentarios multilínea.
 >llamamos a los correspondientes estados, COMENTARIO_LINEA, COMENTARIO_MULTILINEA.
+
+>#### Relas léxicas
+>Estas identificaran los distintos elementos que compones el programa fuente, podemos ver un ejemplo donde se identificas las palabras
+>reservadas propias del lenguaje fuente.
+
+
+### Analizador Sintáctico
+>Para el analizador sintáctico hemos utilizado la herramienta CUP, la cual permite generar la implementación del
+> analizador a partir de la especificación sintáctica y el analizador léxico del apartado anterior.
+
+>El formato de nuestro fichero de especificación sintáctica que utiliza la herramienta CUP consiste de dos secciones
+>principales:
+>**Preámbulo: Importamos los paquetes de Java necesarios (de java_cup.runtime ).
+>**Especificación gramatical: Definimos los símbolos terminales (terminal) y no terminales (non terminal) y las
