@@ -66,21 +66,21 @@ especificación léxica debemos tener en cuenta:
 >A la hora de realizar la evaluación del traductor se realizaría invocando la aplicación desde el entormo Eclipse y pasando
 >como argumentos la ruta: P.ej. src main resources /prueba2.pas. En el caso de éxito se visualizaría el menú y se debe pulsar la opción >1.
 >
->A continuación la descripción de cada uno de los diferentes casos de prueba.
->
->–prueba1.pas. Comentarios multilínea: definición de constantes, variables y bloque principal de sentencias.
->-prueba1_error.pas. Técnica de errores a nivel frase. Localiza los errores indicando línea y columna.
->
->-prueba2.pas. El analizador reconoce funciones y procedimientos.
-
->-prueba2_error.pas. Modo pánico y nivel frase.
-
->-prueba3.pas. El analizador reconoce sentencias de control de flujo como if , while , repeat y for
-
->-prueba3_error.pas. Error falta punto y coma.
-
->-prueba4.pas. El analizador reconoce la librería UNIT y sentencias anidadas.
-
->-Prueba4_error.pas. El analizador detecta error de comentario.
+>A continuación la descripción de cada uno de los diferentes casos de prueba:
+>>
+>>– prueba1.pas. Comentarios multilínea: definición de constantes, variables y bloque principal de sentencias.
+>>- prueba1_error.pas. Técnica de errores a nivel frase. Localiza los errores indicando línea y columna.
+>>
+>>- prueba2.pas. El analizador reconoce funciones y procedimientos.
+>>
+>>- prueba2_error.pas. Modo pánico y nivel frase.
+>>
+>>- prueba3.pas. El analizador reconoce sentencias de control de flujo como if , while , repeat y for
+>>
+>> -prueba3_error.pas. Error falta punto y coma.
+>>
+>>- prueba4.pas. El analizador reconoce la librería UNIT y sentencias anidadas.
+>>
+>>- Prueba4_error.pas. El analizador detecta error de comentario.
 
 
