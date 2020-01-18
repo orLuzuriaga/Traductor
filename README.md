@@ -20,18 +20,17 @@
 enunciado y los tokens que el analizador no reconoce a excepción del salto línea y el retorno de carro. Para empezar la
 especificación léxica debemos tener en cuenta:
 
-> #### Identificadores:
+#### Identificadores:
 >Para representar los identificadores se ha utilizado la siguiente definición léxica esta define todas las ristras de símbolos
 >compuestas por letras, dígitos y guiones bajos, donde obligatoriamente empieza.
 >
 > * Identifier = [a-zA-Z][0-9A-Za-z_]*
-> #### Constantes numéricas enteras y reales
+
+#### Constantes numéricas enteras y reales
 >Traductor reconoce constantes de dos tipos entera y reales, donde las entera puede ir precedida por un signo [+|
 >[+|--] y la reales se pueden expresar en tipos distintos, Punto fijo, Exponencial, Mixto. Para identificarlas se ha utilizado las >siguientes definiciones::
->*Entera = integer_const = [+|-]?[:digit:]+
->*Real = real_const = {PuntoFijo } | {Exponecial } | {Mixto}
->> Base PuntoFijo = digit digit :]+
-
-Base Exponecial digit e"|"E digit :]+
-
-Base Mixta = PuntoFijo e"|"E digit :]+
+
+#### Constantes literales
+> Las constantes literales son del tipo 'contenido de la constante literal’ dado que puede contener comillas dentro, nos hemos apoyado >en >un estado, que nos permite realizar un análisis independiente una vez detectada la primera comilla, “ ‘ “ , para ello una vez
+> detectada la comilla iniciamos el estado llamado
+>“CONT_LITERALES"
