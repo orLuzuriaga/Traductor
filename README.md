@@ -100,5 +100,5 @@ especificación léxica debemos tener en cuenta:
 >>- Prueba4_error.pas. El analizador detecta error de comentario.
 >
 >
-><img src="https://github.com/orluzuriaga/Traductor/blob/master/Imagenes/Casos%20de%20uso.png" width="650" height="400">
+><img src="https://github.com/orluzuriaga/Traductor/blob/master/Imagenes/Casos%20de%20uso.png" width="850" height="400">
 >
