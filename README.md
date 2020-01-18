@@ -48,7 +48,39 @@ especificación léxica debemos tener en cuenta:
 >Para el analizador sintáctico hemos utilizado la herramienta CUP, la cual permite generar la implementación del
 > analizador a partir de la especificación sintáctica y el analizador léxico del apartado anterior.
 
->El formato de nuestro fichero de especificación sintáctica que utiliza la herramienta CUP consiste de dos secciones
->principales:
->*Preámbulo: Importamos los paquetes de Java necesarios (de java_cup.runtime ).
->*Especificación gramatical: Definimos los símbolos terminales (terminal) y no terminales (non terminal) y las
+### Traducción dirigida por la sintaxis
+> Para completar el traductor y generar el archivo .c hemos seguido usando la herramienta CUP, la cual nos permite describir
+>acciones semánticas en lenguaje java con la siguiente sintaxis:
+>
+>*ANTECEDENTE ::= CONSECUENTE1 | … | CONSECUENTE N {: acciones semánticas:};
+>
+>En esta etapa de la práctica nos hemos apoyado en atributos sintetizados. Por lo que las acciones semánticas se encuentran
+>al final del consecuente.
+>En esta etapa de la práctica nos hemos apoyado en atributos sintetizados. Por lo que las acciones semánticas se encuentran
+>al final del consecuente.
+>
+>Siguiendo la teoría para trabajar con CUP creamos una variable auxiliar y su valor lo obtenemos del del valor que se
+>encuentra en la cima de la pila.
+
+### Como ejecutar el programa
+>A la hora de realizar la evaluación del traductor se realizaría invocando la aplicación desde el entormo Eclipse y pasando
+>como argumentos la ruta: P.ej. src main resources /prueba2.pas. En el caso de éxito se visualizaría el menú y se debe pulsar la opción >1.
+>
+>A continuación la descripción de cada uno de los diferentes casos de prueba.
+>
+>–prueba1.pas. Comentarios multilínea: definición de constantes, variables y bloque principal de sentencias.
+>-prueba1_error.pas. Técnica de errores a nivel frase. Localiza los errores indicando línea y columna.
+>
+>-prueba2.pas. El analizador reconoce funciones y procedimientos.
+
+>-prueba2_error.pas. Modo pánico y nivel frase.
+
+>-prueba3.pas. El analizador reconoce sentencias de control de flujo como if , while , repeat y for
+
+>-prueba3_error.pas. Error falta punto y coma.
+
+>-prueba4.pas. El analizador reconoce la librería UNIT y sentencias anidadas.
+
+>-Prueba4_error.pas. El analizador detecta error de comentario.
+
+
