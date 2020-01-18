@@ -29,7 +29,9 @@ especificación léxica debemos tener en cuenta:
 >#### Constantes numéricas enteras y reales
 >Traductor reconoce constantes de dos tipos entera y reales, donde las entera puede ir precedida por un signo [+| [+|--] 
 >las reales se pueden expresar en tipos distintos, Punto fijo, Exponencial, Mixto. Para identificarlas se ha utilizado las >siguientes >definiciones::
-
+>
+><img src="https://github.com/orluzuriaga/Traductor/blob/master/Imagenes/Constantes.png" width="888" height="430">
+>
 >#### Constantes literales
 > Las constantes literales son del tipo 'contenido de la constante literal’ dado que puede contener comillas dentro, nos hemos apoyado >en >un estado, que nos permite realizar un análisis independiente una vez detectada la primera comilla, “ ‘ “ , para ello una vez
 > detectada la comilla iniciamos el estado llamado
