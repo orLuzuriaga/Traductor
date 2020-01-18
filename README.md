@@ -50,5 +50,5 @@ especificación léxica debemos tener en cuenta:
 
 >El formato de nuestro fichero de especificación sintáctica que utiliza la herramienta CUP consiste de dos secciones
 >principales:
->**Preámbulo: Importamos los paquetes de Java necesarios (de java_cup.runtime ).
->**Especificación gramatical: Definimos los símbolos terminales (terminal) y no terminales (non terminal) y las
+>*Preámbulo: Importamos los paquetes de Java necesarios (de java_cup.runtime ).
+>*Especificación gramatical: Definimos los símbolos terminales (terminal) y no terminales (non terminal) y las
