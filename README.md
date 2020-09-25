@@ -37,7 +37,7 @@ especificación léxica debemos tener en cuenta:
 > Las constantes literales son del tipo 'contenido de la constante literal’ dado que puede contener comillas dentro, nos hemos apoyado >en >un estado, que nos permite realizar un análisis independiente una vez detectada la primera comilla, “ ‘ “ , para ello una vez
 > detectada la comilla iniciamos el estado llamado
 >“CONT_LITERALES"
->![Constantes literales](img src="https://github.com/orluzuriaga/Traductor/blob/master/Imagenes/Constantes_literales.png" width="600" height="400")
+>!<img src="https://github.com/orluzuriaga/Traductor/blob/master/Imagenes/Constantes_literales.png" width="600" height="400">
 >
 >
 >#### Comentarios de línea y multilínea
