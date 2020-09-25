@@ -3,7 +3,7 @@
 > un lenguaje de programación similar a PASCAL (de ahora en adelante lenguaje fuente), a otro
 > similar a C (de ahora en adelante lenguaje final), utilizando herramientas de Jflex y CUP
 
-***
+
 ### Analizador léxico
 
 > En esta práctica se pide implementar un procesador de lenguajes capaz de traducir un archivo fuente en Pascal al lenguaje C
@@ -53,6 +53,8 @@ especificación léxica debemos tener en cuenta:
 >
 ><img src="https://github.com/orluzuriaga/Traductor/blob/master/Imagenes/Reglas%20lexicas.png" width="650" height="300">
 >
+
+***
 ### Analizador Sintáctico
 >Para el analizador sintáctico hemos utilizado la herramienta CUP, la cual permite generar la implementación del
 > analizador a partir de la especificación sintáctica y el analizador léxico del apartado anterior.
@@ -75,6 +77,9 @@ especificación léxica debemos tener en cuenta:
 >Siguiendo la teoría para trabajar con CUP creamos una variable auxiliar y su valor lo obtenemos del del valor que se
 >encuentra en la cima de la pila.
 >
+
+
+***
 ### Árbol de analisis
 >
 ><img src="https://github.com/orluzuriaga/Traductor/blob/master/Imagenes/Esquema_arbol.png" width="850" height="400">
