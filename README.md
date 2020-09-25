@@ -3,6 +3,7 @@
 > un lenguaje de programación similar a PASCAL (de ahora en adelante lenguaje fuente), a otro
 > similar a C (de ahora en adelante lenguaje final), utilizando herramientas de Jflex y CUP
 
+---
 ### Analizador léxico
 
 > En esta práctica se pide implementar un procesador de lenguajes capaz de traducir un archivo fuente en Pascal al lenguaje C
